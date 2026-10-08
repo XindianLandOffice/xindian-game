@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PAD 突發事件小遊戲 V8｜八款橫式全螢幕試玩版 V7</title>
+<style>
+:root{--bg:#09111e;--panel:#141d31;--panel2:#1b2742;--text:#f7f9fc;--muted:#aeb9ce;--line:#31405f;--accent:#5eead4;--accent2:#60a5fa;--good:#34d399;--bad:#fb7185;--warn:#fbbf24;--shadow:0 14px 36px rgba(0,0,0,.28)}
+*{box-sizing:border-box}html,body{margin:0;background:linear-gradient(180deg,#07101d,#101a2e 58%,#09111e);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;min-height:100%}button,input,textarea,select{font:inherit}button{touch-action:manipulation}.app{max-width:1180px;margin:0 auto;padding:18px}.hidden{display:none!important}.top{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}.title h1{font-size:clamp(24px,4vw,38px);margin:0 0 6px}.title p{margin:0;color:var(--muted)}.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.controls input,.controls select,.admin-form input,.admin-form textarea,.admin-form select{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#0d1426;color:var(--text);min-height:44px}.controls input{min-width:140px}.btn{border:1px solid var(--line);background:#18233b;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;min-height:44px}.btn:hover{background:#223052}.btn.primary{background:linear-gradient(135deg,#0f766e,#2563eb);border:0;font-weight:700}.btn.danger{background:#3a1720;border-color:#6b2634}.btn.warn{background:#4a3610;border-color:#725317}.btn.ghost{background:transparent}.mission-badge{display:inline-flex;gap:8px;align-items:center;background:#0e172a;border:1px solid var(--line);padding:9px 12px;border-radius:999px;color:var(--muted)}.mission-badge b{color:var(--accent);font-size:18px}.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}.nav button{padding:14px 10px;border-radius:16px;border:1px solid var(--line);background:var(--panel);color:var(--text);text-align:left;cursor:pointer;min-height:88px}.nav button strong{display:block;font-size:16px}.nav button span{display:block;color:var(--muted);font-size:13px;margin-top:5px}.nav button.active{outline:2px solid var(--accent);background:#18303a}.panel{background:rgba(20,29,49,.96);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:18px}.game{display:none}.game.active{display:block}.game-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}.game-head h2{margin:0;font-size:clamp(22px,3vw,30px)}.status{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#0e172a;border:1px solid var(--line);padding:8px 10px;border-radius:999px;color:var(--muted)}.pill b{color:var(--text)}.intro{color:var(--muted);margin:0 0 16px;line-height:1.7}.lock-banner{border:1px dashed #476082;background:#0f172a;border-radius:16px;padding:14px;margin:10px 0 16px}.lock-banner strong{color:var(--warn)}.clue{display:none;margin-top:16px;padding:18px;border-radius:16px;background:linear-gradient(135deg,#063b35,#123c66);border:1px solid #39a9a1}.clue.show{display:block}.clue .big{font-size:clamp(22px,4vw,34px);font-weight:900;margin-top:8px;line-height:1.45}.score-note{color:#d8e7f7;font-size:14px;margin-top:8px}.two{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.card{background:#0d1528;border:1px solid var(--line);border-radius:16px;padding:14px}.card h3{margin:0 0 10px}.center{text-align:center}.symbol-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.symbol-btn{width:60px;height:60px;border-radius:14px;border:1px solid var(--line);background:#182440;color:white;font-size:28px;cursor:pointer}.symbol-btn:hover{background:#253657}.slots{display:flex;gap:10px;justify-content:center;margin:14px 0}.slot{width:66px;height:66px;border:2px dashed #475569;border-radius:14px;display:grid;place-items:center;font-size:31px;background:#0b1222}.history{display:grid;gap:8px;max-height:330px;overflow:auto}.history-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#111b30;padding:10px 12px;border-radius:11px}.history-row .guess{font-size:21px;letter-spacing:4px;white-space:nowrap}.history-row.latest{background:#17334a;outline:2px solid #3b82f6;padding:14px 13px}.history-row.latest .guess{font-size:31px;letter-spacing:7px}.history-row.latest .feedback{font-size:15px;color:#e5f2ff;font-weight:700}.feedback{font-size:13px;color:var(--muted)}
+.maze-wrap{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:14px;align-items:start}.maze{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));grid-template-rows:repeat(13,minmax(0,1fr));gap:2px;background:#07101e;padding:7px;border-radius:14px;aspect-ratio:1/1;width:100%;max-width:650px;margin:auto;overflow:hidden}.cell{min-width:0;min-height:0;border-radius:4px;background:#15213a;position:relative;overflow:hidden}.cell.wall{background:#030711}.cell.gate{background:#6a4317}.cell.gate.on{background:#b91c1c;box-shadow:inset 0 0 0 2px #fecaca}.cell.goal{background:#065f46}.cell.player:after{content:"";position:absolute;inset:19%;border-radius:50%;background:#67e8f9;box-shadow:0 0 9px #22d3ee}.cell.goal:before{content:"";position:absolute;inset:25%;border:3px solid #a7f3d0;border-radius:4px}.dpad{display:grid;grid-template-columns:repeat(3,62px);grid-template-rows:repeat(3,62px);gap:7px;justify-content:center;margin-top:12px}.dpad button{border:1px solid var(--line);background:#1d2a46;color:white;border-radius:12px;font-size:25px}.dpad .up{grid-column:2}.dpad .left{grid-column:1;grid-row:2}.dpad .down{grid-column:2;grid-row:2}.dpad .right{grid-column:3;grid-row:2}.dpad .reset{grid-column:2;grid-row:3;font-size:12px}
+.klotski-shell{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:16px;align-items:start}.klotski-board-wrap{display:flex;justify-content:center;padding-bottom:28px}.klotski-board{position:relative;width:min(520px,92vw);aspect-ratio:4/5;background:#09111f;border:8px solid #263756;border-radius:14px;box-shadow:inset 0 0 0 2px #0c172b}.klotski-board:after{content:"出口";position:absolute;left:25%;width:50%;bottom:-31px;height:26px;border:3px solid var(--good);border-top:0;border-radius:0 0 12px 12px;color:#bbf7d0;text-align:center;font-size:13px;line-height:24px;background:#063b35}.kblock{position:absolute;display:grid;place-items:center;border:0;border-radius:12px;color:#eef7ff;font-weight:900;cursor:pointer;transition:left .12s ease,top .12s ease,outline .12s ease;background:#334155;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}.kblock.core{background:linear-gradient(135deg,#0f766e,#2563eb);font-size:clamp(15px,3vw,24px)}.kblock.unit{background:#37465f}.kblock.soldier{background:#6b4b1e}.kblock.selected{outline:4px solid var(--warn);z-index:3}.move-pad{display:grid;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,58px);gap:7px;justify-content:center;margin:14px auto}.move-pad button{border:1px solid var(--line);background:#1d2b49;color:#fff;border-radius:12px;font-size:24px}.move-pad .mup{grid-column:2}.move-pad .mleft{grid-column:1;grid-row:2}.move-pad .mdown{grid-column:2;grid-row:2}.move-pad .mright{grid-column:3;grid-row:2}.move-pad .mreset{grid-column:2;grid-row:3;font-size:12px}
+.stream-board{position:relative;height:390px;overflow:hidden;background:linear-gradient(180deg,#08111f,#0f1c33);border:1px solid var(--line);border-radius:16px}.stream-board:before,.stream-board:after{content:"";position:absolute;top:0;bottom:0;width:1px;background:#263754;pointer-events:none}.stream-board:before{left:33.333%}.stream-board:after{left:66.666%}.token{position:absolute;top:-58px;min-width:84px;padding:11px 12px;border:0;border-radius:12px;color:white;font-weight:900;box-shadow:0 7px 18px rgba(0,0,0,.3);animation:fall linear forwards;cursor:pointer}.token.good{background:#0f766e}.token.bonus{background:#1d4ed8}.token.jackpot{background:#7c3aed}.token.time{background:#0369a1}.token.bad{background:#9f1239}.token.error{background:#7c2d12}@keyframes fall{to{transform:translateY(470px)}}
+.stage-box{min-height:360px;display:grid;place-items:center}.stage-inner{width:min(650px,100%);text-align:center}.stage-title{font-size:22px;font-weight:800;margin-bottom:12px}.grid16{display:grid;grid-template-columns:repeat(4,64px);gap:8px;justify-content:center}.grid16 button{width:64px;height:64px;border-radius:12px;border:1px solid var(--line);background:#182440}.grid16 button.lit{background:#fde047;box-shadow:0 0 20px rgba(253,224,71,.55)}.grid16 button.selected{background:#0f766e}.timing{height:34px;border-radius:999px;background:#101827;border:1px solid var(--line);position:relative;overflow:hidden}.zone{position:absolute;left:42%;width:16%;top:0;bottom:0;background:#166534}.marker{position:absolute;width:12px;top:0;bottom:0;background:#fde047;left:0}.simon{display:grid;grid-template-columns:repeat(2,120px);gap:10px;justify-content:center}.simon button{height:100px;border:0;border-radius:18px;opacity:.7}.simon button.flash{opacity:1;filter:brightness(1.8);transform:scale(1.03)}.s1{background:#dc2626}.s2{background:#2563eb}.s3{background:#16a34a}.s4{background:#ca8a04}.dial-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.dial{width:82px;height:82px;border-radius:50%;border:3px solid #475569;background:#17223b;color:white;font-size:30px;display:grid;place-items:center;cursor:pointer}.final-lock{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.lock-dot{padding:12px 6px;border-radius:12px;background:#1b263e;color:#8da0c3}.lock-dot.done{background:#064e3b;color:#bbf7d0}.simon-tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+
+.sync-shell{display:grid;gap:14px}.sync-status-card{background:#0b1426;border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center}.sync-event{font-size:clamp(23px,4vw,38px);font-weight:950;letter-spacing:.02em;min-height:1.35em}.sync-sub{color:var(--muted);margin-top:7px;min-height:1.5em}.sync-progress{height:20px;background:#07101e;border:1px solid #32415f;border-radius:999px;overflow:hidden;margin-top:12px;position:relative}.sync-progress>div{height:100%;width:0;background:linear-gradient(90deg,#0f766e,#22d3ee,#60a5fa);transition:width .2s ease}.sync-board{width:min(760px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(92px,1fr));gap:10px;aspect-ratio:1.35/1;background:radial-gradient(circle at 50% 50%,#14294a 0,#091324 42%,#07101d 100%);border:1px solid #334766;border-radius:24px;padding:12px;user-select:none;-webkit-user-select:none;touch-action:none;overflow:hidden}.sync-pad{border:2px solid #405273;background:linear-gradient(160deg,#1a2947,#111a2d);color:#dcecff;border-radius:20px;font-weight:950;font-size:clamp(17px,3vw,26px);min-width:0;min-height:0;touch-action:none;user-select:none;-webkit-user-select:none;position:relative;overflow:hidden;transition:transform .08s ease,background .12s ease,border-color .12s ease,box-shadow .12s ease}.sync-pad small{display:block;font-size:12px;font-weight:600;color:#91a5c4;margin-top:4px}.sync-name{display:block}.sync-action{display:none;position:absolute;left:8px;right:8px;bottom:12px;padding:7px 5px;border-radius:999px;background:#facc15;color:#241a00;font-size:clamp(12px,2.1vw,17px);font-weight:1000;line-height:1.05;box-shadow:0 4px 16px rgba(0,0,0,.28);z-index:3}.sync-pad.target .sync-action{display:block}.sync-pad.hold-target .sync-action{background:#fb7185;color:#fff}.sync-pad.hold-armed{border-color:#fb7185;background:linear-gradient(150deg,#6f1736,#311225);box-shadow:0 0 22px rgba(251,113,133,.32)}.sync-pad.hold-armed .sync-action{display:block;background:#fb7185;color:#fff}.sync-pad.chain-target .sync-action{background:#67e8f9;color:#082f49}.sync-hold-meter{display:none;position:absolute;left:10px;right:10px;bottom:4px;height:5px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden;z-index:4}.sync-pad.hold-target .sync-hold-meter{display:block}.sync-hold-meter i{display:block;height:100%;width:0;background:#fff;border-radius:999px}.sync-pad.holding .sync-hold-meter i{animation:g6HoldFill var(--hold-ms,1000ms) linear forwards}@keyframes g6HoldFill{from{width:0}to{width:100%}}.sync-pad.target{border-color:#facc15;background:linear-gradient(150deg,#725710,#2b250d);box-shadow:0 0 24px rgba(250,204,21,.36)}.sync-pad.pressed{transform:scale(.96);background:linear-gradient(150deg,#0f766e,#164e63);border-color:#67e8f9;box-shadow:0 0 25px rgba(34,211,238,.42)}.sync-pad.good{background:#065f46;border-color:#6ee7b7}.sync-pad.badflash{background:#881337;border-color:#fda4af}.sync-pad[data-sync="1"]{grid-column:1;grid-row:1}.sync-pad[data-sync="2"]{grid-column:2;grid-row:1}.sync-pad[data-sync="3"]{grid-column:3;grid-row:1}.sync-pad[data-sync="4"]{grid-column:1;grid-row:3}.sync-pad[data-sync="5"]{grid-column:3;grid-row:3}.sync-core{grid-column:2;grid-row:2;display:grid;place-items:center;text-align:center;border-radius:50%;width:min(145px,82%);aspect-ratio:1;margin:auto;border:4px solid #324967;background:radial-gradient(circle,#19365d,#0b172b 68%);box-shadow:0 0 25px rgba(96,165,250,.18);font-weight:950;color:#cfe9ff;position:relative}.sync-core b{font-size:clamp(22px,4vw,34px);display:block}.sync-core span{font-size:11px;color:#8fa8c7}.sync-board.overdrive{animation:syncPulse .7s ease-in-out infinite alternate;border-color:#22d3ee}.sync-board.overdrive .sync-core{box-shadow:0 0 42px rgba(34,211,238,.45);border-color:#67e8f9}.sync-tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.sync-flash{animation:syncFlash .25s ease}.sync-success{animation:syncSuccess .45s ease}.sync-countdown{font-size:clamp(40px,8vw,70px);color:#fde68a}@keyframes syncPulse{to{filter:brightness(1.13)}}@keyframes syncFlash{50%{transform:scale(1.06)}}@keyframes syncSuccess{50%{filter:brightness(1.55)}}
+
+/* V9：遊戲⑥移除佔高事件說明，操作提示直接落在玩家按鍵；橫式 PAD 操作區最大化 */
+.sync-pad{display:flex;flex-direction:column;padding:8px;touch-action:none;user-select:none;-webkit-user-select:none}
+.sync-player-head{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:24px;padding:0 3px;position:relative;z-index:3}
+.sync-player-head small{font-size:11px;color:#91a5c4;white-space:nowrap}
+.sync-mini-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(var(--mini-cols,2),minmax(0,1fr));gap:6px;margin-top:6px}
+.sync-mini-btn{min-width:0;min-height:0;border:2px solid #405273;border-radius:12px;background:linear-gradient(160deg,#243653,#172238);color:#b9c8dd;font-weight:1000;font-size:clamp(18px,2.7vw,30px);touch-action:none;user-select:none;-webkit-user-select:none;transition:transform .06s ease,background .1s ease,border-color .1s ease,box-shadow .1s ease}
+.sync-mini-btn:active,.sync-mini-btn.pressed{transform:scale(.94)}
+.sync-mini-btn.target{border-color:#facc15;background:linear-gradient(150deg,#76590d,#34280d);color:#fff3a8;box-shadow:0 0 18px rgba(250,204,21,.36)}
+.sync-mini-btn.chain-target{border-color:#67e8f9;background:linear-gradient(150deg,#155e75,#083344);color:#cffafe;box-shadow:0 0 18px rgba(103,232,249,.3)}
+.sync-mini-btn.good{background:#065f46;border-color:#6ee7b7;color:#d1fae5}
+.sync-mini-btn.badflash{background:#881337;border-color:#fda4af;color:#ffe4e6}
+.sync-hold-btn{display:none;flex:1;min-height:0;width:100%;margin-top:6px;border:3px solid #fb7185;border-radius:16px;background:linear-gradient(145deg,#7f1d3f,#3f1228);color:#fff;font-weight:1000;font-size:clamp(18px,2.7vw,29px);touch-action:none;user-select:none;-webkit-user-select:none;position:relative;overflow:hidden;align-items:center;justify-content:center;flex-direction:column;gap:5px;box-shadow:0 0 22px rgba(251,113,133,.24)}
+.sync-hold-btn small{font-size:clamp(11px,1.5vw,14px);color:#ffe4e6}
+.sync-hold-btn .sync-hold-meter{display:block;position:absolute;left:10px;right:10px;bottom:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}
+.sync-hold-btn .sync-hold-meter i{display:block;height:100%;width:0;background:#fff;border-radius:999px}
+.sync-hold-btn.holding{background:linear-gradient(145deg,#be123c,#701a3b);box-shadow:0 0 34px rgba(251,113,133,.5)}
+.sync-hold-btn.holding .sync-hold-meter i{animation:g6HoldFill var(--hold-ms,1000ms) linear forwards}
+.sync-pad.hold-target .sync-mini-grid{display:none}
+.sync-pad.hold-target .sync-hold-btn{display:flex}
+.sync-pad.hold-target .sync-player-head small{color:#fecdd3}
+.sync-pad.hold-armed{border-color:#fb7185;background:linear-gradient(150deg,#51152f,#24101d)}
+.sync-pad .sync-action{top:5px;right:6px;left:auto;bottom:auto;max-width:58%;padding:5px 8px;font-size:clamp(10px,1.35vw,14px);pointer-events:none}
+.sync-pad.target:not(.hold-target){border-color:#405273;background:linear-gradient(160deg,#1a2947,#111a2d);box-shadow:none}
+.sync-pad.target:not(.hold-target) .sync-action{display:block}
+.game:fullscreen .sync-mini-grid,.game.game-fullscreen .sync-mini-grid{gap:7px}
+.game:fullscreen .sync-mini-btn,.game.game-fullscreen .sync-mini-btn{font-size:clamp(19px,2.6vw,34px);border-radius:13px}
+.game:fullscreen .sync-hold-btn,.game.game-fullscreen .sync-hold-btn{font-size:clamp(22px,3vw,36px)}
+
+.scoreboard{margin-top:18px}.best-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.best{background:#0d1528;border:1px solid var(--line);border-radius:12px;padding:10px}.best b{font-size:20px;display:block;margin-top:3px}.table-wrap{overflow:auto;margin-top:12px}table{width:100%;border-collapse:collapse;min-width:720px}th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}th{color:#cbd5e1;font-size:13px}.empty{color:var(--muted);padding:18px;text-align:center}.toast{position:sticky;bottom:10px;margin:12px auto 0;max-width:560px;background:#111827;border:1px solid #334155;border-radius:12px;padding:10px 12px;text-align:center;display:none;z-index:20}.toast.show{display:block}.help{font-size:13px;color:var(--muted);line-height:1.6}.accent{color:var(--accent)}
+.admin-head{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px}.admin-head h1{margin:0}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.admin-form{display:grid;gap:10px}.admin-form label{display:grid;gap:6px;color:#d5deec}.admin-form textarea{min-height:92px;resize:vertical}.mission-list{display:grid;gap:8px}.mission-item{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:8px;align-items:center;background:#0e172a;border:1px solid var(--line);border-radius:12px;padding:10px}.mission-item.active{outline:2px solid var(--accent)}.mission-item small{color:var(--muted);display:block;margin-top:3px}.admin-score-actions{display:flex;gap:8px;flex-wrap:wrap}.admin-note{padding:12px;border-radius:12px;background:#2c2410;border:1px solid #6b521b;color:#fde68a}.admin-section{margin-top:16px}.score-chip{font-size:13px;color:#d5e7ff}.combo{font-size:22px;font-weight:900;color:#fde68a}.settings-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.settings-tabs button.active{background:#18303a;outline:2px solid var(--accent)}.settings-pane{display:none}.settings-pane.active{display:block}.setting-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}.setting-grid label{display:grid;gap:6px;color:#d5deec}.setting-grid input,.setting-grid select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#0d1426;color:var(--text);min-height:44px}.setting-help{font-size:13px;color:var(--muted);line-height:1.55}.setting-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.switch-row{display:flex;gap:10px;align-items:center;padding:10px 0}.switch-row input{width:22px;height:22px}.setting-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}.setting-summary>div{background:#0d1528;border:1px solid var(--line);border-radius:12px;padding:10px}.setting-summary b{display:block;color:var(--accent);margin-bottom:3px}.setting-summary small{color:var(--muted)}
+
+/* V7｜橫式 PAD 全螢幕遊玩：進入遊戲後隱藏前置說明，把畫面留給操作區 */
+.game:fullscreen,.game.game-fullscreen{position:relative;background:linear-gradient(180deg,#07101d,#101a2e 58%,#09111e);border:0;border-radius:0;width:100vw;height:100vh;max-width:none;overflow:hidden;padding:max(7px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));box-shadow:none}
+@supports(height:100dvh){.game:fullscreen,.game.game-fullscreen{height:100dvh}}
+.game:fullscreen .game-head,.game.game-fullscreen .game-head{position:relative;top:auto;z-index:30;background:transparent;backdrop-filter:none;padding:0 0 5px;margin:0 0 5px;min-height:42px;align-items:center;flex-wrap:nowrap}
+.game:fullscreen .game-head h2,.game.game-fullscreen .game-head h2{font-size:clamp(18px,2.1vw,28px);white-space:nowrap}
+.game:fullscreen .status,.game.game-fullscreen .status{gap:5px;justify-content:flex-end;flex:1;flex-wrap:nowrap;min-width:0}
+.game:fullscreen .pill,.game.game-fullscreen .pill{padding:5px 8px;font-size:clamp(11px,1.25vw,15px);white-space:nowrap}
+.fs-btn{margin-left:auto}.fs-exit{border-color:#6b2634;background:#35151e}.game:fullscreen .fs-btn,.game.game-fullscreen .fs-btn{min-height:34px;padding:5px 9px;font-size:13px;white-space:nowrap}
+/* 遊戲說明只留在選單／預覽畫面；全螢幕遊玩時不占高度 */
+.game:fullscreen .intro,.game:fullscreen .lock-banner,.game.game-fullscreen .intro,.game.game-fullscreen .lock-banner{display:none!important}
+.game:fullscreen .card,.game.game-fullscreen .card{background:#0d1528}.game:fullscreen .clue.show,.game.game-fullscreen .clue.show{position:absolute;inset:12% 9%;z-index:90;display:grid;place-content:center;text-align:center;font-size:clamp(18px,2.1vw,25px);box-shadow:0 18px 60px rgba(0,0,0,.48)}
+.game:fullscreen .two,.game.game-fullscreen .two{height:calc(100% - 52px);min-height:0;align-items:stretch;grid-template-columns:1.08fr .92fr}.game:fullscreen .two>.card,.game.game-fullscreen .two>.card{min-height:0;overflow:auto}
+.game:fullscreen .history,.game.game-fullscreen .history{max-height:calc(100vh - 175px)}
+.game:fullscreen .maze-wrap,.game.game-fullscreen .maze-wrap{height:calc(100% - 52px);min-height:0;align-items:center;grid-template-columns:minmax(0,1fr) 185px}.game:fullscreen .maze,.game.game-fullscreen .maze{height:100%;width:auto;max-height:calc(100vh - 62px);max-width:calc(100vw - 235px)}
+.game:fullscreen .maze-wrap>.card,.game.game-fullscreen .maze-wrap>.card{padding:9px;max-height:100%;overflow:auto}.game:fullscreen .dpad,.game.game-fullscreen .dpad{grid-template-columns:repeat(3,54px);grid-template-rows:repeat(3,54px);gap:5px;margin-top:7px}
+.game:fullscreen .klotski-shell,.game.game-fullscreen .klotski-shell{height:calc(100% - 52px);min-height:0;align-items:center;grid-template-columns:minmax(0,1fr) 190px}.game:fullscreen .klotski-board-wrap,.game.game-fullscreen .klotski-board-wrap{height:100%;padding-bottom:25px;align-items:center}.game:fullscreen .klotski-board,.game.game-fullscreen .klotski-board{height:calc(100% - 25px);width:auto;max-width:calc(100vw - 245px)}.game:fullscreen .klotski-shell>.card,.game.game-fullscreen .klotski-shell>.card{padding:9px;max-height:100%;overflow:auto}
+.game:fullscreen .stream-board,.game.game-fullscreen .stream-board{height:calc(100vh - 72px)}
+.game:fullscreen .final-lock,.game.game-fullscreen .final-lock{margin-bottom:4px}.game:fullscreen .lock-dot,.game.game-fullscreen .lock-dot{padding:6px 4px;font-size:12px}.game:fullscreen .stage-box,.game.game-fullscreen .stage-box{height:calc(100vh - 105px);min-height:0;padding:8px}.game:fullscreen .stage-inner,.game.game-fullscreen .stage-inner{width:min(920px,100%)}
+.game:fullscreen .sync-shell,.game.game-fullscreen .sync-shell{height:calc(100% - 52px);grid-template-rows:auto minmax(0,1fr) auto;gap:5px}.game:fullscreen .sync-status-card,.game.game-fullscreen .sync-status-card{padding:6px 10px}.game:fullscreen .sync-event,.game.game-fullscreen .sync-event{font-size:clamp(18px,2.3vw,29px);min-height:1.15em}.game:fullscreen .sync-sub,.game.game-fullscreen .sync-sub{margin-top:2px;font-size:12px;min-height:1.2em}.game:fullscreen .sync-progress,.game.game-fullscreen .sync-progress{height:12px;margin-top:5px}.game:fullscreen .sync-board,.game.game-fullscreen .sync-board{width:min(1060px,98vw);height:100%;max-height:none;aspect-ratio:auto;grid-template-rows:repeat(3,minmax(58px,1fr));gap:7px;padding:8px}.game:fullscreen .sync-pad,.game.game-fullscreen .sync-pad{border-radius:15px;font-size:clamp(15px,2.2vw,24px)}.game:fullscreen .sync-action,.game.game-fullscreen .sync-action{bottom:10px;padding:6px 4px;font-size:clamp(12px,1.7vw,16px)}.game:fullscreen .sync-core,.game.game-fullscreen .sync-core{width:min(128px,74%)}.game:fullscreen .sync-tools,.game.game-fullscreen .sync-tools{gap:5px}.game:fullscreen .sync-tools .btn,.game.game-fullscreen .sync-tools .btn{min-height:34px;padding:5px 10px}
+.game:fullscreen .gravity-shell,.game.game-fullscreen .gravity-shell{height:calc(100% - 52px);grid-template-rows:12px minmax(0,1fr) auto auto;gap:5px}.game:fullscreen .gravity-energy,.game.game-fullscreen .gravity-energy{height:12px}.game:fullscreen .gravity-canvas-wrap,.game.game-fullscreen .gravity-canvas-wrap{min-height:0;height:100%}.game:fullscreen .gravity-canvas,.game.game-fullscreen .gravity-canvas{width:100%;height:100%;aspect-ratio:auto}.game:fullscreen .gravity-msg,.game.game-fullscreen .gravity-msg{top:6px;padding:5px 10px;font-size:13px}.game:fullscreen .gravity-controls,.game.game-fullscreen .gravity-controls{gap:5px}.game:fullscreen .gravity-btn,.game.game-fullscreen .gravity-btn{min-height:56px;border-radius:13px;font-size:clamp(13px,1.6vw,18px)}.game:fullscreen .gravity-btn span,.game.game-fullscreen .gravity-btn span{font-size:10px;margin-top:2px}
+.game:fullscreen .party-shell,.game.game-fullscreen .party-shell{height:calc(100% - 52px);grid-template-rows:12px minmax(0,1fr) auto auto;gap:5px}.game:fullscreen .party-progress,.game.game-fullscreen .party-progress{height:12px}.game:fullscreen .party-stage,.game.game-fullscreen .party-stage{min-height:0;height:100%;padding:8px}.game:fullscreen .party-title,.game.game-fullscreen .party-title{font-size:clamp(27px,4.2vw,52px);margin:3px 0}.game:fullscreen .party-instruction,.game.game-fullscreen .party-instruction{font-size:clamp(15px,2vw,23px)}.game:fullscreen .party-controls,.game.game-fullscreen .party-controls{gap:5px}.game:fullscreen .party-btn,.game.game-fullscreen .party-btn{min-height:62px;border-radius:13px;font-size:clamp(14px,1.8vw,20px)}.game:fullscreen .party-btn small,.game.game-fullscreen .party-btn small{font-size:10px;margin-top:2px}
+@media(orientation:portrait){.game:fullscreen:after,.game.game-fullscreen:after{content:"請將 PAD 轉為橫式遊玩";position:absolute;inset:0;z-index:120;background:rgba(3,7,17,.96);display:grid;place-items:center;text-align:center;font-size:clamp(26px,7vw,48px);font-weight:950;color:#fde68a;padding:24px}}
+
+/* ⑦ 五人重力逃生 */
+.gravity-shell{display:grid;gap:12px}.gravity-canvas-wrap{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#07101d}.gravity-canvas{display:block;width:100%;height:auto;aspect-ratio:2.05/1;touch-action:none}.gravity-msg{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:2;background:rgba(5,10,20,.78);border:1px solid #36506f;border-radius:999px;padding:8px 14px;font-weight:900;white-space:nowrap;pointer-events:none}.gravity-controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;touch-action:none}.gravity-btn{min-height:88px;border:2px solid #405273;border-radius:17px;background:linear-gradient(160deg,#192846,#101a2d);color:#e7f5ff;font-weight:950;font-size:clamp(15px,2.3vw,23px);touch-action:none}.gravity-btn span{display:block;font-size:12px;color:#95a9c8;margin-top:5px}.gravity-btn.flip{background:linear-gradient(150deg,#0f766e,#1d4ed8);border-color:#67e8f9;transform:translateY(-2px)}.gravity-btn.hit{animation:g7hit .25s ease}.gravity-energy{height:18px;background:#07101e;border:1px solid #334766;border-radius:999px;overflow:hidden}.gravity-energy>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#fb7185,#fbbf24,#34d399);transition:width .18s ease}@keyframes g7hit{50%{background:#881337;transform:scale(.96)}}
+
+/* ⑧ DATA PARTY */
+.party-shell{display:grid;gap:12px}.party-stage{min-height:300px;border:1px solid var(--line);border-radius:20px;background:radial-gradient(circle at 50% 30%,#18325a 0,#0a1427 48%,#07101d 100%);display:grid;place-items:center;text-align:center;padding:18px;position:relative;overflow:hidden}.party-round{font-size:clamp(16px,2.3vw,24px);font-weight:800;color:#9fb8d8}.party-title{font-size:clamp(30px,5vw,60px);font-weight:1000;line-height:1.05;margin:8px 0}.party-instruction{font-size:clamp(17px,2.5vw,28px);color:#e7f5ff;min-height:1.4em}.party-flash{animation:partyFlash .28s ease}.party-progress{height:18px;border-radius:999px;background:#07101e;border:1px solid #334766;overflow:hidden}.party-progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c3aed,#2563eb,#22d3ee,#34d399);transition:width .2s ease}.party-controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.party-btn{min-height:105px;border:2px solid #415272;border-radius:18px;background:#17233c;color:#e7f5ff;font-size:clamp(18px,2.4vw,27px);font-weight:950;position:relative;overflow:hidden;touch-action:none}.party-btn small{display:block;font-size:12px;color:#92a6c5;margin-top:5px}.party-btn.ready{border-color:#facc15;background:#5d4912;box-shadow:0 0 22px rgba(250,204,21,.25)}.party-btn.go{border-color:#6ee7b7;background:#065f46}.party-btn.stop{border-color:#fb7185;background:#63162f}.party-btn.hit{transform:scale(.96);filter:brightness(1.35)}.party-mini-meter{position:absolute;left:8px;right:8px;bottom:6px;height:6px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden}.party-mini-meter i{display:block;height:100%;width:0;background:#67e8f9}.party-scorepop{position:absolute;font-size:34px;font-weight:1000;color:#fde68a;animation:scorePop .7s ease forwards;pointer-events:none}@keyframes partyFlash{50%{transform:scale(1.035);filter:brightness(1.2)}}@keyframes scorePop{to{transform:translateY(-50px);opacity:0}}
+
+@media(orientation:landscape) and (max-height:650px){.game:fullscreen,.game.game-fullscreen{padding:5px 8px}.game:fullscreen .game-head,.game.game-fullscreen .game-head{min-height:36px;margin-bottom:3px}.game:fullscreen .game-head h2,.game.game-fullscreen .game-head h2{font-size:18px}.game:fullscreen .pill,.game.game-fullscreen .pill{padding:3px 6px;font-size:11px}.game:fullscreen .sync-event,.game.game-fullscreen .sync-event{font-size:20px}.game:fullscreen .sync-sub,.game.game-fullscreen .sync-sub{display:none}.game:fullscreen .gravity-btn,.game.game-fullscreen .gravity-btn,.game:fullscreen .party-btn,.game.game-fullscreen .party-btn{min-height:50px}}
+
+@media(max-width:900px){.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.maze-wrap,.klotski-shell,.admin-grid,.setting-grid{grid-template-columns:1fr}.setting-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.best-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.maze{max-width:620px}.maze-wrap>.card,.klotski-shell>.card{max-width:650px;margin:auto;width:100%}}@media(max-width:520px){.app{padding:10px}.sync-board{grid-template-rows:repeat(3,minmax(78px,1fr));gap:6px;padding:7px}.sync-pad{border-radius:14px}.sync-core{width:min(108px,82%)}.nav{grid-template-columns:1fr}.symbol-btn{width:54px;height:54px}.slot{width:56px;height:56px}.history-row.latest .guess{font-size:26px;letter-spacing:4px}.grid16{grid-template-columns:repeat(4,54px)}.grid16 button{width:54px;height:54px}.simon{grid-template-columns:repeat(2,100px)}.simon button{height:88px}.final-lock{grid-template-columns:1fr}.mission-item{grid-template-columns:62px 1fr}}
+@media(prefers-reduced-motion:reduce){.token{animation-duration:5s!important}.simon button,.kblock{transition:none}}
+
+/* V9 - Game 6 compact landscape UI */
+#g6 .sync-status-card{display:none!important}
+#g6 .sync-shell{grid-template-rows:minmax(0,1fr) auto!important;gap:5px}
+#g6 .sync-board{position:relative}
+#g6 .sync-action{display:none!important}
+#g6 .sync-mini-grid{margin-top:3px}
+#g6 .sync-player-head small{display:none}
+#g6 .sync-pad{padding:7px}
+#g6 .sync-player-head{min-height:22px;display:flex;align-items:center;justify-content:center}
+#g6 .sync-name{font-size:clamp(13px,1.55vw,19px)}
+#g6 .g6-float-feedback{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);z-index:20;pointer-events:none;opacity:0;padding:10px 18px;border-radius:16px;background:rgba(3,8,20,.84);border:1px solid rgba(148,163,184,.32);font-size:clamp(28px,5vw,58px);font-weight:1000;letter-spacing:.04em;color:#f8fafc;box-shadow:0 16px 38px rgba(0,0,0,.34);transition:opacity .12s ease,transform .12s ease}
+#g6 .g6-float-feedback.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#g6 .g6-float-feedback.good{color:#a7f3d0;border-color:rgba(52,211,153,.55)}
+#g6 .g6-float-feedback.bad{color:#fecdd3;border-color:rgba(251,113,133,.58)}
+#g6 .g6-float-feedback.count{color:#fde68a;border-color:rgba(250,204,21,.5)}
+#g6:fullscreen .sync-shell,#g6.game-fullscreen .sync-shell{height:calc(100% - 52px);grid-template-rows:minmax(0,1fr) auto!important}
+#g6:fullscreen .sync-board,#g6.game-fullscreen .sync-board{width:min(1180px,99vw);height:100%;max-height:none}
+#g6:fullscreen .sync-mini-btn,#g6.game-fullscreen .sync-mini-btn{font-size:clamp(22px,3vw,38px)}
+#g6:fullscreen .sync-player-head,#g6.game-fullscreen .sync-player-head{min-height:20px}
+@media(orientation:landscape) and (max-height:650px){#g6:fullscreen .sync-name,#g6.game-fullscreen .sync-name{font-size:13px}#g6:fullscreen .sync-pad,#g6.game-fullscreen .sync-pad{padding:5px}#g6:fullscreen .sync-mini-grid,#g6.game-fullscreen .sync-mini-grid{gap:5px;margin-top:2px}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <main id="playView">
+    <div class="top">
+      <div class="title"><h1>🔐 PAD 突發事件小遊戲</h1><p>八款橫式全螢幕版 V8｜遊戲⑥多鍵反應＋整區大型長按</p></div>
+      <div class="controls">
+        <span class="mission-badge">目前任務 <b id="activeMissionBadge">01</b></span>
+        <label>隊伍 <input id="teamName" value="測試隊" maxlength="20"></label>
+        <button class="btn" id="openAdmin">工作人員後台</button>
+      </div>
+    </div>
+
+    <div class="nav" id="nav">
+      <button data-game="g1" class="active"><strong>① 密碼破解</strong><span>推理符號密碼</span></button>
+      <button data-game="g2"><strong>② 資料防火牆</strong><span>大型迷宮＋閘門</span></button>
+      <button data-game="g3"><strong>③ 核心華容道</strong><span>移開阻擋資料</span></button>
+      <button data-game="g4"><strong>④ 資料攔截戰</strong><span>連擊＋特殊資料包</span></button>
+      <button data-game="g5"><strong>⑤ 五段安全鎖</strong><span>五個短型挑戰</span></button>
+      <button data-game="g6"><strong>⑥ 同步解鎖</strong><span>5 人同時合作操作</span></button>
+      <button data-game="g7"><strong>⑦ 五人重力逃生</strong><span>5 條跑道＋一人一鍵</span></button>
+      <button data-game="g8"><strong>⑧ DATA PARTY</strong><span>五人派對微型遊戲</span></button>
+    </div>
+
+    <section id="g1" class="game panel active">
+      <div class="game-head"><h2>① 密碼破解</h2><div class="status"><span class="pill">時間 <b id="g1time">120</b>s</span><span class="pill">嘗試 <b id="g1tries">0</b>/8</span><span class="pill">預估分數 <b id="g1score">100</b></span></div></div>
+      <p class="intro">4 個不重複符號構成密碼。每次送出後只會告訴你「位置完全正確」與「符號正確但位置錯誤」的數量；最新一筆比對會特別放大。</p>
+      <div class="lock-banner"><strong>🔒 關鍵情報已鎖定</strong>｜破解 4 位符號密碼即可解鎖。</div>
+      <div class="two">
+        <div class="card center">
+          <div class="slots" id="g1slots"></div>
+          <div class="symbol-row" id="g1symbols"></div>
+          <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn" id="g1back">退一格</button><button class="btn primary" id="g1submit">送出密碼</button><button class="btn" id="g1start">重新開始</button></div>
+        </div>
+        <div class="card"><h3>破解紀錄</h3><div class="history" id="g1history"><div class="empty">開始後會顯示每次嘗試。</div></div></div>
+      </div>
+      <div class="clue" id="g1clue"><div>🔓 關鍵情報解鎖</div><div class="big clue-value"></div><div class="score-note" id="g1result"></div></div>
+    </section>
+
+    <section id="g2" class="game panel">
+      <div class="game-head"><h2>② 資料防火牆</h2><div class="status"><span class="pill">時間 <b id="g2time">90</b>s</span><span class="pill">步數 <b id="g2steps">0</b></span><span class="pill">命中防火牆 <b id="g2hits">0</b></span><span class="pill">預估分數 <b id="g2score">100</b></span></div></div>
+      <p class="intro">新版改為 13×13 大型迷宮。把藍色資料核心送到右下角出口；所有格子高度固定，不會因藍球移動而撐高版面。橘色閘門會週期切換，紅色時經過會扣分。</p>
+      <div class="lock-banner"><strong>🧱 防火牆封鎖中</strong>｜抵達右下角出口即可取得情報。</div>
+      <div class="maze-wrap">
+        <div class="maze" id="maze"></div>
+        <div class="card center"><h3>方向控制</h3><div class="dpad"><button class="up" data-move="up">▲</button><button class="left" data-move="left">◀</button><button class="down" data-move="down">▼</button><button class="right" data-move="right">▶</button><button class="reset" id="g2start">重新產生</button></div><p class="help">鍵盤方向鍵也能操作。<br>紅色閘門＝啟動中，穿越會扣分，但不會卡死。</p></div>
+      </div>
+      <div class="clue" id="g2clue"><div>🔓 防火牆突破｜關鍵情報取得</div><div class="big clue-value"></div><div class="score-note" id="g2result"></div></div>
+    </section>
+
+    <section id="g3" class="game panel">
+      <div class="game-head"><h2>③ 核心華容道</h2><div class="status"><span class="pill">時間 <b id="g3time">120</b>s</span><span class="pill">移動 <b id="g3moves">0</b></span><span class="pill">預估分數 <b id="g3score">100</b></span></div></div>
+      <p class="intro">點選資料方塊，再用方向鍵移動。把最大的「核心資料」一路移到下方出口即可解鎖；每一題都是從可完成狀態反向打亂，不會出現無解局面。</p>
+      <div class="lock-banner"><strong>📦 核心資料遭到堵塞</strong>｜把「核心資料」送到下方出口。</div>
+      <div class="klotski-shell">
+        <div class="klotski-board-wrap"><div class="klotski-board" id="klotskiBoard"></div></div>
+        <div class="card center"><h3>移動控制</h3><div class="move-pad"><button class="mup" data-kmove="up">▲</button><button class="mleft" data-kmove="left">◀</button><button class="mdown" data-kmove="down">▼</button><button class="mright" data-kmove="right">▶</button><button class="mreset" id="g3reset">復原本題</button></div><p class="help">先點選一個方塊，再按方向。<br><span class="accent">青藍色＝核心資料</span></p><button class="btn" id="g3start">重新出題</button></div>
+      </div>
+      <div class="clue" id="g3clue"><div>🔓 核心資料送達｜關鍵情報取得</div><div class="big clue-value"></div><div class="score-note" id="g3result"></div></div>
+    </section>
+
+    <section id="g4" class="game panel">
+      <div class="game-head"><h2>④ 資料攔截戰</h2><div class="status"><span class="pill">時間 <b id="g4time">50</b>s</span><span class="pill">分數 <b id="g4points">0</b>/100</span><span class="pill">連擊 <b id="g4combo">0</b></span><span class="pill">倍率 <b id="g4multi">×1</b></span></div></div>
+      <p class="intro">新版加入連擊、倍率與特殊資料包。連續攔截正確資料會提高倍率；病毒或錯誤資料會中斷連擊。達到 100 分立即解鎖。</p>
+      <div class="lock-banner"><strong>📡 資料流量異常</strong>｜在時間內累積 100 分。</div>
+      <div class="stream-board" id="streamBoard"></div>
+      <div style="margin-top:12px;text-align:center"><button class="btn primary" id="g4start">開始 50 秒挑戰</button></div>
+      <div class="clue" id="g4clue"><div>🔓 資料完整度達標｜關鍵情報取得</div><div class="big clue-value"></div><div class="score-note" id="g4result"></div></div>
+    </section>
+
+    <section id="g5" class="game panel">
+      <div class="game-head"><h2>⑤ 五段安全鎖</h2><div class="status"><span class="pill">時間 <b id="g5time">150</b>s</span><span class="pill">完成 <b id="g5stageNum">0</b>/5</span><span class="pill">預估分數 <b id="g5score">100</b></span></div></div>
+      <p class="intro">連續解除 5 個不同機關。第四關「訊號追蹤」現在可以重播燈號、清除目前輸入；按錯也不會只能乾等。</p>
+      <div class="final-lock" id="lockProgress"></div>
+      <div class="stage-box card"><div class="stage-inner" id="stageArea"><button class="btn primary" id="g5start">開始五段解鎖</button></div></div>
+      <div class="clue" id="g5clue"><div>🔓 五段安全鎖全部解除</div><div class="big clue-value"></div><div class="score-note" id="g5result"></div></div>
+    </section>
+
+    <section id="g6" class="game panel">
+      <div class="game-head"><h2>⑥ 五人同步解鎖</h2><div class="status"><span class="pill">時間 <b id="g6time">165</b>s</span><span class="pill">充能 <b id="g6charge">0</b>/260</span><span class="pill">連擊 <b id="g6combo">0</b></span><span class="pill">倍率 <b id="g6multi">×1</b></span></div></div>
+      <p class="intro">五個人各守一個玩家區域，每區都有多顆反應鍵；一般事件會隨機點亮其中一顆，需要按對自己的亮鍵。遇到長按事件時，該玩家整個區域會切換成大型 HOLD 鍵，直接整區按住即可。預設完整遊玩約 2 分 45 秒。</p>
+      <div class="lock-banner"><strong>⚡ 關鍵情報需要 5 人同步授權</strong>｜PAD 放在中間，每人守住一個號碼。這款不是輪流玩，而是要一起喊、一起按。</div>
+      <div class="sync-shell">
+        <div class="sync-status-card"><div class="sync-event" id="g6event">按「開始同步解鎖」準備任務</div><div class="sync-sub" id="g6sub">每人先認領 1～5 號其中一個按鍵。</div><div class="sync-progress"><div id="g6bar"></div></div></div>
+        <div class="sync-board" id="syncBoard">
+          <div id="g6float" class="g6-float-feedback" aria-live="polite"></div>
+          <div class="sync-pad" data-sync="1"><div class="sync-player-head"><span class="sync-name">玩家 1</span><small>守住這一區</small></div><span class="sync-action"></span><div class="sync-mini-grid" aria-label="玩家 1 按鈕區"></div><button class="sync-hold-btn" type="button" aria-label="玩家 1 長按區"><span>玩家 1｜HOLD</span><small>整個區域按住不要放</small><span class="sync-hold-meter"><i></i></span></button></div>
+          <div class="sync-pad" data-sync="2"><div class="sync-player-head"><span class="sync-name">玩家 2</span><small>守住這一區</small></div><span class="sync-action"></span><div class="sync-mini-grid" aria-label="玩家 2 按鈕區"></div><button class="sync-hold-btn" type="button" aria-label="玩家 2 長按區"><span>玩家 2｜HOLD</span><small>整個區域按住不要放</small><span class="sync-hold-meter"><i></i></span></button></div>
+          <div class="sync-pad" data-sync="3"><div class="sync-player-head"><span class="sync-name">玩家 3</span><small>守住這一區</small></div><span class="sync-action"></span><div class="sync-mini-grid" aria-label="玩家 3 按鈕區"></div><button class="sync-hold-btn" type="button" aria-label="玩家 3 長按區"><span>玩家 3｜HOLD</span><small>整個區域按住不要放</small><span class="sync-hold-meter"><i></i></span></button></div>
+          <div class="sync-core" id="g6core"><div><b>0%</b><span>CORE CHARGE</span></div></div>
+          <div class="sync-pad" data-sync="4"><div class="sync-player-head"><span class="sync-name">玩家 4</span><small>守住這一區</small></div><span class="sync-action"></span><div class="sync-mini-grid" aria-label="玩家 4 按鈕區"></div><button class="sync-hold-btn" type="button" aria-label="玩家 4 長按區"><span>玩家 4｜HOLD</span><small>整個區域按住不要放</small><span class="sync-hold-meter"><i></i></span></button></div>
+          <div class="sync-pad" data-sync="5"><div class="sync-player-head"><span class="sync-name">玩家 5</span><small>守住這一區</small></div><span class="sync-action"></span><div class="sync-mini-grid" aria-label="玩家 5 按鈕區"></div><button class="sync-hold-btn" type="button" aria-label="玩家 5 長按區"><span>玩家 5｜HOLD</span><small>整個區域按住不要放</small><span class="sync-hold-meter"><i></i></span></button></div>
+        </div>
+        <div class="sync-tools"><button class="btn primary" id="g6start">開始同步解鎖</button><button class="btn" id="g6mute">音效：開</button></div>
+      </div>
+      <div class="clue" id="g6clue"><div>🔓 五人同步授權完成｜關鍵情報取得</div><div class="big clue-value"></div><div class="score-note" id="g6result"></div></div>
+    </section>
+
+    <section id="g7" class="game panel">
+      <div class="game-head"><h2>⑦ 五人重力逃生</h2><div class="status"><span class="pill">時間 <b id="g7time">150</b>s</span><span class="pill">團隊能量 <b id="g7energy">100</b>%</span><span class="pill">通過 <b id="g7passes">0</b></span><span class="pill">預估分數 <b id="g7score">100</b></span></div></div>
+      <p class="intro">5 個人各守一條跑道，每個人只有一個按鍵：點一下就把自己的角色切換到天花板／地板。障礙會持續逼近，偶爾五條跑道會一起出現同步門。</p>
+      <div class="lock-banner"><strong>🌀 傳輸通道重力失控</strong>｜全隊撐過倒數並累積足夠通過數，才能解鎖關鍵情報。</div>
+      <div class="gravity-shell">
+        <div class="gravity-energy"><i id="g7energyBar"></i></div>
+        <div class="gravity-canvas-wrap"><div class="gravity-msg" id="g7msg">按「開始重力逃生」準備</div><canvas id="gravityCanvas" class="gravity-canvas" width="1200" height="585"></canvas></div>
+        <div class="gravity-controls" id="gravityControls">
+          <button class="gravity-btn" data-gravity="0">玩家 1<span>點一下切換重力</span></button>
+          <button class="gravity-btn" data-gravity="1">玩家 2<span>點一下切換重力</span></button>
+          <button class="gravity-btn" data-gravity="2">玩家 3<span>點一下切換重力</span></button>
+          <button class="gravity-btn" data-gravity="3">玩家 4<span>點一下切換重力</span></button>
+          <button class="gravity-btn" data-gravity="4">玩家 5<span>點一下切換重力</span></button>
+        </div>
+        <div class="sync-tools"><button class="btn primary" id="g7start">開始重力逃生</button></div>
+      </div>
+      <div class="clue" id="g7clue"><div>🔓 全隊成功穿越｜關鍵情報取得</div><div class="big clue-value"></div><div class="score-note" id="g7result"></div></div>
+    </section>
+
+    <section id="g8" class="game panel">
+      <div class="game-head"><h2>⑧ DATA PARTY</h2><div class="status"><span class="pill">時間 <b id="g8time">150</b>s</span><span class="pill">PARTY SCORE <b id="g8points">0</b></span><span class="pill">回合 <b id="g8round">0</b></span><span class="pill">連勝 <b id="g8streak">0</b></span></div></div>
+      <p class="intro">一場遊戲裡會快速切換不同的 5 人微型任務：全員同步、紅綠燈、接力、連打、反應爆破。每回合只有幾秒，規則會直接顯示在遊戲畫面中央。</p>
+      <div class="lock-banner"><strong>🎉 資料解鎖進入 PARTY MODE</strong>｜在倒數結束前累積指定分數，所有人都要隨時準備出手。</div>
+      <div class="party-shell">
+        <div class="party-progress"><i id="g8bar"></i></div>
+        <div class="party-stage" id="partyStage"><div><div class="party-round" id="g8roundName">準備中</div><div class="party-title" id="g8title">DATA PARTY</div><div class="party-instruction" id="g8instruction">按「開始 PARTY」進入 5 人亂戰</div></div></div>
+        <div class="party-controls" id="partyControls">
+          <button class="party-btn" data-party="1">玩家 1<small>守住自己的按鍵</small><span class="party-mini-meter"><i></i></span></button>
+          <button class="party-btn" data-party="2">玩家 2<small>守住自己的按鍵</small><span class="party-mini-meter"><i></i></span></button>
+          <button class="party-btn" data-party="3">玩家 3<small>守住自己的按鍵</small><span class="party-mini-meter"><i></i></span></button>
+          <button class="party-btn" data-party="4">玩家 4<small>守住自己的按鍵</small><span class="party-mini-meter"><i></i></span></button>
+          <button class="party-btn" data-party="5">玩家 5<small>守住自己的按鍵</small><span class="party-mini-meter"><i></i></span></button>
+        </div>
+        <div class="sync-tools"><button class="btn primary" id="g8start">開始 DATA PARTY</button></div>
+      </div>
+      <div class="clue" id="g8clue"><div>🔓 PARTY SCORE 達標｜關鍵情報取得</div><div class="big clue-value"></div><div class="score-note" id="g8result"></div></div>
+    </section>
+
+    <section class="panel scoreboard">
+      <div class="game-head"><h2>🏆 試玩分數</h2><span class="pill" id="storageState">本機儲存：檢查中</span></div>
+      <div class="best-grid" id="bestGrid"></div>
+      <p class="help">遊玩畫面只顯示任務代碼，不會預先顯示該任務的關鍵情報。清空分數與任務設定請進「工作人員後台」。</p>
+    </section>
+  </main>
+
+  <section id="adminView" class="hidden">
+    <div class="admin-head"><div><h1>🛠 工作人員共同後台</h1><p class="intro">管理任務包、目前任務、關鍵情報、八款遊戲基本設定與分數紀錄。設定都儲存在這台裝置的瀏覽器中。</p></div><button class="btn primary" id="backToPlay">返回遊戲</button></div>
+    <div class="admin-note">注意：這是離線活動用的「工作人員模式」，目的是避免學生在正常遊玩畫面看到關鍵情報，不是資安等級的加密後台。知道工作人員 PIN 的人仍可進入設定。</div>
+    <div class="admin-grid admin-section">
+      <div class="panel">
+        <div class="game-head"><h2>任務包管理</h2><span class="pill">目前任務 <b id="adminActiveCode">01</b></span></div>
+        <div class="mission-list" id="missionList"></div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="addMission">＋ 新增任務包</button><button class="btn warn" id="resetMissions">恢復預設任務包</button></div>
+      </div>
+      <div class="panel">
+        <h2 style="margin-top:0">編輯任務包</h2>
+        <div class="admin-form">
+          <label>任務代碼<input id="editCode" maxlength="8" placeholder="例如 01"></label>
+          <label>工作人員備註／名稱<input id="editName" maxlength="40" placeholder="例如：坪林任務（不會顯示在遊戲畫面）"></label>
+          <label>解鎖後顯示的關鍵情報<textarea id="editClue" maxlength="160" placeholder="例如：目標地點就在○○路與○○路交會附近。"></textarea></label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="saveMission">儲存任務包</button><button class="btn" id="setActiveMission">設為目前任務</button><button class="btn danger" id="deleteMission">刪除任務包</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="admin-grid admin-section">
+      <div class="panel">
+        <h2 style="margin-top:0">工作人員設定</h2>
+        <div class="admin-form"><label>進入後台 PIN<input id="adminPin" inputmode="numeric" maxlength="8"></label><button class="btn" id="savePin">更新 PIN</button></div>
+        <p class="help">預設 PIN：2580。若是現場正式活動，建議先改掉。</p>
+      </div>
+      <div class="panel">
+        <h2 style="margin-top:0">分數資料</h2>
+        <div class="admin-score-actions"><button class="btn" id="exportScores">匯出 CSV</button><button class="btn danger" id="clearScores">清空全部分數</button></div>
+        <p class="help">每筆紀錄會包含：時間、隊伍、任務代碼、遊戲、分數與結果。</p>
+      </div>
+    </div>
+    <section class="panel admin-section" id="gameSettingsPanel">
+      <div class="game-head"><div><h2>🎛 遊戲基本設定</h2><p class="help">這裡的設定是全站共用，不會因切換任務包而改變。儲存後，下一局遊戲立即套用。</p></div><button class="btn warn" id="resetGameSettings">恢復全部預設值</button></div>
+      <div class="switch-row"><input type="checkbox" id="autoRevealOnFail"><label for="autoRevealOnFail"><b>失敗／時間到仍自動解鎖關鍵情報</b><span class="setting-help">關閉後，未達成條件只記錄分數，不會顯示關鍵情報；現場需由工作人員決定是否重玩。</span></label></div>
+      <div class="settings-tabs" id="settingsTabs">
+        <button class="btn active" type="button" data-setting="g1">① 密碼破解</button>
+        <button class="btn" type="button" data-setting="g2">② 資料防火牆</button>
+        <button class="btn" type="button" data-setting="g3">③ 核心華容道</button>
+        <button class="btn" type="button" data-setting="g4">④ 資料攔截戰</button>
+        <button class="btn" type="button" data-setting="g5">⑤ 五段安全鎖</button>
+        <button class="btn" type="button" data-setting="g6">⑥ 同步解鎖</button>
+        <button class="btn" type="button" data-setting="g7">⑦ 重力逃生</button>
+        <button class="btn" type="button" data-setting="g8">⑧ DATA PARTY</button>
+      </div>
+      <div class="settings-pane active" data-pane="g1"><div class="setting-grid">
+        <label>遊戲時間（秒）<input id="set_g1_time" type="number" min="30" max="300" step="5"></label>
+        <label>最多嘗試次數<input id="set_g1_maxTries" type="number" min="3" max="20"></label>
+        <label>密碼長度<input id="set_g1_codeLength" type="number" min="3" max="5"></label>
+        <label>可用符號數<input id="set_g1_symbolCount" type="number" min="4" max="6"></label>
+        <label>每次猜錯扣分<input id="set_g1_wrongPenalty" type="number" min="0" max="20"></label>
+        <label>成功最低得分<input id="set_g1_minSuccess" type="number" min="0" max="100"></label>
+      </div><p class="setting-help">密碼長度不可大於可用符號數。最新一次比對仍會自動放大顯示。</p></div>
+      <div class="settings-pane" data-pane="g2"><div class="setting-grid">
+        <label>遊戲時間（秒）<input id="set_g2_time" type="number" min="30" max="300" step="5"></label>
+        <label>迷宮尺寸（奇數）<input id="set_g2_size" type="number" min="9" max="21" step="2"></label>
+        <label>動態防火牆數量<input id="set_g2_gateCount" type="number" min="0" max="25"></label>
+        <label>防火牆切換間隔（毫秒）<input id="set_g2_gateInterval" type="number" min="600" max="5000" step="100"></label>
+        <label>撞到防火牆扣分<input id="set_g2_hitPenalty" type="number" min="0" max="30"></label>
+        <label>成功最低得分<input id="set_g2_minSuccess" type="number" min="0" max="100"></label>
+      </div><p class="setting-help">尺寸越大，路徑通常越長。建議 PAD 先從 13×13 或 15×15 測試，避免格子太小。</p></div>
+      <div class="settings-pane" data-pane="g3"><div class="setting-grid">
+        <label>遊戲時間（秒）<input id="set_g3_time" type="number" min="30" max="300" step="5"></label>
+        <label>題目打亂步數<input id="set_g3_scramble" type="number" min="10" max="120" step="2"></label>
+        <label>不扣分移動步數<input id="set_g3_freeMoves" type="number" min="5" max="100"></label>
+        <label>超過後每步扣分<input id="set_g3_movePenalty" type="number" min="0" max="10"></label>
+        <label>成功最低得分<input id="set_g3_minSuccess" type="number" min="0" max="100"></label>
+      </div><p class="setting-help">「題目打亂步數」越高通常越難，但因為是隨機打亂，每局難度仍會略有差異。</p></div>
+      <div class="settings-pane" data-pane="g4"><div class="setting-grid">
+        <label>遊戲時間（秒）<input id="set_g4_time" type="number" min="15" max="180" step="5"></label>
+        <label>解鎖目標分數<input id="set_g4_target" type="number" min="20" max="500" step="5"></label>
+        <label>資料產生間隔（毫秒）<input id="set_g4_spawn" type="number" min="180" max="1200" step="20"></label>
+        <label>掉落基準速度（秒）<input id="set_g4_fall" type="number" min="1" max="6" step="0.1"></label>
+        <label>連擊幾次升倍率<input id="set_g4_comboStep" type="number" min="2" max="15"></label>
+        <label>時間道具增加秒數<input id="set_g4_timeBonus" type="number" min="1" max="15"></label>
+      </div><p class="setting-help">產生間隔越小、掉落速度秒數越小，遊戲越快。目標分數可依活動時間調整。</p></div>
+      <div class="settings-pane" data-pane="g5"><div class="setting-grid">
+        <label>五關總時間（秒）<input id="set_g5_time" type="number" min="60" max="300" step="5"></label>
+        <label>每次失誤扣分<input id="set_g5_mistakePenalty" type="number" min="0" max="20"></label>
+        <label>LOCK 2 記憶格數<input id="set_g5_gridCount" type="number" min="3" max="8"></label>
+        <label>LOCK 2 顯示時間（毫秒）<input id="set_g5_gridShow" type="number" min="600" max="4000" step="100"></label>
+        <label>LOCK 4 燈號長度<input id="set_g5_simonLength" type="number" min="3" max="9"></label>
+        <label>LOCK 4 重播扣分<input id="set_g5_replayPenalty" type="number" min="0" max="20"></label>
+        <label>LOCK 5 限時（秒）<input id="set_g5_finalTime" type="number" min="3" max="20"></label>
+        <label>成功最低得分<input id="set_g5_minSuccess" type="number" min="0" max="100"></label>
+      </div><p class="setting-help">LOCK 4 的「清除輸入」仍不扣分；只有重播是否扣分由這裡控制。</p></div>
+      <div class="settings-pane" data-pane="g6"><div class="setting-grid">
+        <label>遊戲時間（秒）<input id="set_g6_time" type="number" min="120" max="240" step="15"></label>
+        <label>解鎖目標充能<input id="set_g6_target" type="number" min="100" max="800" step="10"></label>
+        <label>解鎖模式<select id="set_g6_unlockMode"><option value="timer">時間到再判定（建議）</option><option value="instant">達標立即解鎖</option></select></label>
+        <label>最多同時觸發人數<input id="set_g6_maxSimultaneous" type="number" min="2" max="5"></label>
+        <label>每位玩家按鈕數<input id="set_g6_buttonsPerPlayer" type="number" min="2" max="6"></label>
+        <label>多人長按最多人數<input id="set_g6_maxHolders" type="number" min="1" max="5"></label>
+        <label>接力最多人數<input id="set_g6_chainLength" type="number" min="3" max="5"></label>
+        <label>全員事件機率（%）<input id="set_g6_allHandsChance" type="number" min="0" max="60" step="5"></label>
+        <label>同步容許時間（毫秒）<input id="set_g6_syncWindow" type="number" min="200" max="1200" step="50"></label>
+        <label>長按時間（毫秒）<input id="set_g6_holdMs" type="number" min="600" max="3000" step="100"></label>
+        <label>每個指令基準限時（毫秒）<input id="set_g6_eventTimeout" type="number" min="900" max="5000" step="100"></label>
+        <label>事件間隔（毫秒）<input id="set_g6_nextDelay" type="number" min="120" max="1200" step="40"></label>
+        <label>失誤扣除充能<input id="set_g6_mistakePenalty" type="number" min="0" max="30"></label>
+        <label>音效<select id="set_g6_sound"><option value="1">開啟</option><option value="0">關閉</option></select></label>
+      </div><p class="setting-help">正式活動建議 150～180 秒，最多同時觸發 5 人。每位玩家可設定 2～6 顆反應鍵；長按事件會把整個玩家區域切換成大型 HOLD 鍵。選「時間到再判定」後，即使提早充到 100%，仍會繼續進入 OVERDRIVE。</p></div>
+      <div class="settings-pane" data-pane="g7"><div class="setting-grid">
+        <label>遊戲時間（秒）<input id="set_g7_time" type="number" min="90" max="240" step="15"></label>
+        <label>解鎖目標通過數<input id="set_g7_targetPasses" type="number" min="20" max="200" step="5"></label>
+        <label>障礙產生間隔（毫秒）<input id="set_g7_spawnMs" type="number" min="450" max="1800" step="50"></label>
+        <label>障礙速度<input id="set_g7_speed" type="number" min="140" max="520" step="10"></label>
+        <label>碰撞扣能量<input id="set_g7_hitPenalty" type="number" min="1" max="20"></label>
+        <label>全員同步門機率（%）<input id="set_g7_syncChance" type="number" min="0" max="60" step="5"></label>
+      </div><p class="setting-help">5 人各控制自己的跑道；障礙越快、產生間隔越短越難。同步門會同時在 5 條跑道出現同一方向的障礙。</p></div>
+      <div class="settings-pane" data-pane="g8"><div class="setting-grid">
+        <label>遊戲時間（秒）<input id="set_g8_time" type="number" min="90" max="240" step="15"></label>
+        <label>解鎖目標分數<input id="set_g8_target" type="number" min="100" max="1500" step="25"></label>
+        <label>單回合基準時間（毫秒）<input id="set_g8_roundMs" type="number" min="2200" max="8000" step="200"></label>
+        <label>同步容許時間（毫秒）<input id="set_g8_syncWindow" type="number" min="250" max="1500" step="50"></label>
+        <label>連打每人目標次數<input id="set_g8_mashCount" type="number" min="2" max="12"></label>
+        <label>失誤扣分<input id="set_g8_penalty" type="number" min="0" max="30"></label>
+      </div><p class="setting-help">DATA PARTY 會在多種微型遊戲間快速切換；時間越短、同步容許越小、連打次數越高，現場會越混亂。</p></div>
+      <div class="setting-actions"><button class="btn primary" id="saveGameSettings">儲存遊戲設定</button></div>
+      <div class="setting-summary" id="settingSummary"></div>
+    </section>
+
+    <section class="panel admin-section">
+      <div class="game-head"><h2>完整分數紀錄</h2><span class="pill" id="adminStorageState">本機儲存：檢查中</span></div>
+      <div class="table-wrap"><table><thead><tr><th>時間</th><th>隊伍</th><th>任務</th><th>遊戲</th><th>分數</th><th>結果</th></tr></thead><tbody id="scoreRows"></tbody></table></div>
+    </section>
+  </section>
+  <div class="toast" id="toast" aria-live="polite"></div>
+</div>
+<script>
+(()=>{
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const GAME_NAMES={g1:'密碼破解',g2:'資料防火牆',g3:'核心華容道',g4:'資料攔截戰',g5:'五段安全鎖',g6:'同步解鎖',g7:'五人重力逃生',g8:'DATA PARTY'};
+const SCORE_KEY='ailand_pad_game_scores_v2', CONFIG_KEY='ailand_pad_game_config_v2';
+const DEFAULT_GAMES={
+  autoRevealOnFail:true,
+  g1:{time:120,maxTries:8,codeLength:4,symbolCount:6,wrongPenalty:5,minSuccess:50},
+  g2:{time:90,size:13,gateCount:9,gateInterval:2100,hitPenalty:8,minSuccess:40},
+  g3:{time:120,scramble:34,freeMoves:20,movePenalty:1,minSuccess:40},
+  g4:{time:50,target:100,spawn:390,fall:2.7,comboStep:5,timeBonus:3},
+  g5:{time:150,mistakePenalty:4,gridCount:5,gridShow:1700,simonLength:5,replayPenalty:4,finalTime:6,minSuccess:40},
+  g6:{time:165,target:260,unlockMode:'timer',maxSimultaneous:5,buttonsPerPlayer:4,maxHolders:4,chainLength:5,allHandsChance:25,syncWindow:520,holdMs:1200,eventTimeout:2100,nextDelay:380,mistakePenalty:4,sound:1},
+  g7:{time:150,targetPasses:55,spawnMs:900,speed:250,hitPenalty:6,syncChance:20},
+  g8:{time:150,target:500,roundMs:4600,syncWindow:650,mashCount:5,penalty:8}
+};
+const DEFAULT_CONFIG={pin:'2580',active:'01',games:clone(DEFAULT_GAMES),missions:[
+  {code:'01',name:'任務一',clue:'關鍵情報：目標地點靠近○○路。'},
+  {code:'02',name:'任務二',clue:'關鍵情報：請將搜尋範圍縮小到○○一帶。'},
+  {code:'03',name:'任務三',clue:'關鍵情報：目標附近可以看到○○設施。'},
+  {code:'04',name:'任務四',clue:'關鍵情報：目標位在○○的東側。'},
+  {code:'05',name:'任務五',clue:'關鍵情報：最後鎖定範圍為○○路附近。'}
+]};
+let scores=[],config=clone(DEFAULT_CONFIG),storageOK=true,editingCode='01';
+function clone(v){return JSON.parse(JSON.stringify(v))}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('show'),2300)}
+function nowStr(){return new Date().toLocaleString('zh-TW',{hour12:false})}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function activePack(){return config.missions.find(x=>x.code===config.active)||config.missions[0]||{code:'--',name:'',clue:'未設定關鍵情報'} }
+function missionCode(){return activePack().code||'--'}
+function num(v,min,max,fallback){v=Number(v);if(!Number.isFinite(v))v=fallback;return Math.max(min,Math.min(max,v))}
+function odd(v,min,max,fallback){v=Math.round(num(v,min,max,fallback));if(v%2===0)v+=(v<max?1:-1);return v}
+function mergeGameSettings(g){const out=clone(DEFAULT_GAMES);g=g||{};out.autoRevealOnFail=g.autoRevealOnFail!==undefined?!!g.autoRevealOnFail:true;Object.keys(out).forEach(k=>{if(k==='autoRevealOnFail')return;if(g[k]&&typeof g[k]==='object')Object.assign(out[k],g[k])});return out}
+function gs(id){return config.games[id]}
+function finishWithClue(game,ok,score,resultText,clueId,resultId,successMsg,failMsg){
+  const reveal=ok||config.games.autoRevealOnFail;
+  if(reveal)showClue(clueId,resultId,`${ok?successMsg:failMsg}｜本局 ${score} 分`);
+  else{$(clueId).classList.remove('show');$(resultId).textContent=`任務 ${missionCode()}｜${failMsg}｜本局 ${score} 分（未解鎖情報）`;toast('本局未達成，關鍵情報尚未解鎖')}
+  saveScore(game,score,resultText);
+}
+function loadData(){
+  try{
+    const c=JSON.parse(localStorage.getItem(CONFIG_KEY)||'null');
+    if(c&&Array.isArray(c.missions)&&c.missions.length){config=c}
+    scores=JSON.parse(localStorage.getItem(SCORE_KEY)||'[]'); if(!Array.isArray(scores))scores=[];
+    localStorage.setItem('__pad_test','1');localStorage.removeItem('__pad_test');storageOK=true;
+  }catch(e){scores=[];config=clone(DEFAULT_CONFIG);storageOK=false}
+  if(!config.pin)config.pin='2580'; if(!config.active||!config.missions.some(x=>x.code===config.active))config.active=config.missions[0]?.code||'01';
+  config.games=mergeGameSettings(config.games);
+  editingCode=config.active; renderMissionBadge(); renderScores(); renderAdmin(); renderGameSettings(); updateGameLabels(); updateStorageState();
+}
+function persistConfig(){if(storageOK){try{localStorage.setItem(CONFIG_KEY,JSON.stringify(config))}catch(e){storageOK=false}}renderMissionBadge();renderAdmin();if($('#settingSummary'))renderSettingSummary();updateStorageState()}
+function persistScores(){if(storageOK){try{localStorage.setItem(SCORE_KEY,JSON.stringify(scores))}catch(e){storageOK=false}}renderScores();updateStorageState()}
+function updateStorageState(){const s=storageOK?'本機儲存：可用':'本機儲存：此瀏覽器不保證持久保存';$('#storageState').textContent=s;$('#adminStorageState').textContent=s}
+function renderMissionBadge(){$('#activeMissionBadge').textContent=missionCode()}
+function saveScore(game,score,result){score=Math.max(0,Math.min(100,Math.round(score)));scores.unshift({time:nowStr(),team:($('#teamName').value||'未命名隊伍').trim(),mission:missionCode(),game,score,result});scores=scores.slice(0,200);persistScores();toast(`${GAME_NAMES[game]}：已記錄 ${score} 分`)}
+function renderScores(){
+  const best=$('#bestGrid');best.innerHTML='';Object.keys(GAME_NAMES).forEach(k=>{const arr=scores.filter(x=>x.game===k).map(x=>x.score);const v=arr.length?Math.max(...arr):'—';const d=document.createElement('div');d.className='best';d.innerHTML=`<span>${GAME_NAMES[k]}</span><b>${v}</b><small>最佳分數</small>`;best.appendChild(d)});
+  const body=$('#scoreRows');body.innerHTML='';if(!scores.length){body.innerHTML='<tr><td colspan="6" class="empty">尚無紀錄，先玩一局看看。</td></tr>';return}
+  scores.forEach(x=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${esc(x.time)}</td><td>${esc(x.team)}</td><td>${esc(x.mission||'—')}</td><td>${esc(GAME_NAMES[x.game]||x.game)}</td><td><b>${x.score}</b></td><td>${esc(x.result)}</td>`;body.appendChild(tr)})
+}
+function showClue(id,resultId,msg){const el=$(id);$('.clue-value',el).textContent=activePack().clue||'未設定關鍵情報';el.classList.add('show');$(resultId).textContent=`任務 ${missionCode()}｜${msg}`}
+function hideAllClues(){$$('.clue').forEach(x=>x.classList.remove('show'))}
+function renderAdmin(){
+  $('#adminActiveCode').textContent=missionCode();$('#adminPin').value=config.pin||'';
+  const list=$('#missionList');list.innerHTML='';config.missions.forEach(m=>{const item=document.createElement('div');item.className='mission-item'+(m.code===config.active?' active':'');item.innerHTML=`<b>${esc(m.code)}</b><div><strong>${esc(m.name||'未命名任務')}</strong><small>${m.code===config.active?'目前使用中':'點選後可編輯'}</small></div><button class="btn" type="button">編輯</button>`;item.querySelector('button').addEventListener('click',()=>{editingCode=m.code;fillMissionEditor(m);renderAdminListOnly()});list.appendChild(item)});
+  const selected=config.missions.find(x=>x.code===editingCode)||config.missions[0];if(selected)fillMissionEditor(selected,false)
+}
+function renderAdminListOnly(){const items=$$('.mission-item',$('#missionList'));items.forEach((el,i)=>{const m=config.missions[i];el.classList.toggle('active',m.code===config.active)});const selected=config.missions.find(x=>x.code===editingCode);if(selected)fillMissionEditor(selected,false)}
+function fillMissionEditor(m,force=true){if(!m)return;if(force||document.activeElement!==$('#editCode'))$('#editCode').value=m.code;if(force||document.activeElement!==$('#editName'))$('#editName').value=m.name||'';if(force||document.activeElement!==$('#editClue'))$('#editClue').value=m.clue||''}
+function setVal(id,v){const el=$(id);if(el)el.value=v}
+function readInt(id,min,max,fallback){return Math.round(num($(id).value,min,max,fallback))}
+function readFloat(id,min,max,fallback){return num($(id).value,min,max,fallback)}
+function renderGameSettings(){
+  config.games=mergeGameSettings(config.games);const g=config.games;$('#autoRevealOnFail').checked=!!g.autoRevealOnFail;
+  setVal('#set_g1_time',g.g1.time);setVal('#set_g1_maxTries',g.g1.maxTries);setVal('#set_g1_codeLength',g.g1.codeLength);setVal('#set_g1_symbolCount',g.g1.symbolCount);setVal('#set_g1_wrongPenalty',g.g1.wrongPenalty);setVal('#set_g1_minSuccess',g.g1.minSuccess);
+  setVal('#set_g2_time',g.g2.time);setVal('#set_g2_size',g.g2.size);setVal('#set_g2_gateCount',g.g2.gateCount);setVal('#set_g2_gateInterval',g.g2.gateInterval);setVal('#set_g2_hitPenalty',g.g2.hitPenalty);setVal('#set_g2_minSuccess',g.g2.minSuccess);
+  setVal('#set_g3_time',g.g3.time);setVal('#set_g3_scramble',g.g3.scramble);setVal('#set_g3_freeMoves',g.g3.freeMoves);setVal('#set_g3_movePenalty',g.g3.movePenalty);setVal('#set_g3_minSuccess',g.g3.minSuccess);
+  setVal('#set_g4_time',g.g4.time);setVal('#set_g4_target',g.g4.target);setVal('#set_g4_spawn',g.g4.spawn);setVal('#set_g4_fall',g.g4.fall);setVal('#set_g4_comboStep',g.g4.comboStep);setVal('#set_g4_timeBonus',g.g4.timeBonus);
+  setVal('#set_g5_time',g.g5.time);setVal('#set_g5_mistakePenalty',g.g5.mistakePenalty);setVal('#set_g5_gridCount',g.g5.gridCount);setVal('#set_g5_gridShow',g.g5.gridShow);setVal('#set_g5_simonLength',g.g5.simonLength);setVal('#set_g5_replayPenalty',g.g5.replayPenalty);setVal('#set_g5_finalTime',g.g5.finalTime);setVal('#set_g5_minSuccess',g.g5.minSuccess);
+  setVal('#set_g6_time',g.g6.time);setVal('#set_g6_target',g.g6.target);setVal('#set_g6_unlockMode',g.g6.unlockMode||'timer');setVal('#set_g6_maxSimultaneous',g.g6.maxSimultaneous);setVal('#set_g6_buttonsPerPlayer',g.g6.buttonsPerPlayer||4);setVal('#set_g6_maxHolders',g.g6.maxHolders);setVal('#set_g6_chainLength',g.g6.chainLength);setVal('#set_g6_allHandsChance',g.g6.allHandsChance);setVal('#set_g6_syncWindow',g.g6.syncWindow);setVal('#set_g6_holdMs',g.g6.holdMs);setVal('#set_g6_eventTimeout',g.g6.eventTimeout);setVal('#set_g6_nextDelay',g.g6.nextDelay);setVal('#set_g6_mistakePenalty',g.g6.mistakePenalty);setVal('#set_g6_sound',g.g6.sound?1:0);setVal('#set_g7_time',g.g7.time);setVal('#set_g7_targetPasses',g.g7.targetPasses);setVal('#set_g7_spawnMs',g.g7.spawnMs);setVal('#set_g7_speed',g.g7.speed);setVal('#set_g7_hitPenalty',g.g7.hitPenalty);setVal('#set_g7_syncChance',g.g7.syncChance);setVal('#set_g8_time',g.g8.time);setVal('#set_g8_target',g.g8.target);setVal('#set_g8_roundMs',g.g8.roundMs);setVal('#set_g8_syncWindow',g.g8.syncWindow);setVal('#set_g8_mashCount',g.g8.mashCount);setVal('#set_g8_penalty',g.g8.penalty);renderSettingSummary();
+}
+function collectGameSettings(){
+  const g=clone(config.games);g.autoRevealOnFail=$('#autoRevealOnFail').checked;
+  g.g1={time:readInt('#set_g1_time',30,300,120),maxTries:readInt('#set_g1_maxTries',3,20,8),codeLength:readInt('#set_g1_codeLength',3,5,4),symbolCount:readInt('#set_g1_symbolCount',4,6,6),wrongPenalty:readInt('#set_g1_wrongPenalty',0,20,5),minSuccess:readInt('#set_g1_minSuccess',0,100,50)};g.g1.codeLength=Math.min(g.g1.codeLength,g.g1.symbolCount);
+  g.g2={time:readInt('#set_g2_time',30,300,90),size:odd($('#set_g2_size').value,9,21,13),gateCount:readInt('#set_g2_gateCount',0,25,9),gateInterval:readInt('#set_g2_gateInterval',600,5000,2100),hitPenalty:readInt('#set_g2_hitPenalty',0,30,8),minSuccess:readInt('#set_g2_minSuccess',0,100,40)};
+  g.g3={time:readInt('#set_g3_time',30,300,120),scramble:readInt('#set_g3_scramble',10,120,34),freeMoves:readInt('#set_g3_freeMoves',5,100,20),movePenalty:readFloat('#set_g3_movePenalty',0,10,1),minSuccess:readInt('#set_g3_minSuccess',0,100,40)};
+  g.g4={time:readInt('#set_g4_time',15,180,50),target:readInt('#set_g4_target',20,500,100),spawn:readInt('#set_g4_spawn',180,1200,390),fall:readFloat('#set_g4_fall',1,6,2.7),comboStep:readInt('#set_g4_comboStep',2,15,5),timeBonus:readInt('#set_g4_timeBonus',1,15,3)};
+  g.g5={time:readInt('#set_g5_time',60,300,150),mistakePenalty:readInt('#set_g5_mistakePenalty',0,20,4),gridCount:readInt('#set_g5_gridCount',3,8,5),gridShow:readInt('#set_g5_gridShow',600,4000,1700),simonLength:readInt('#set_g5_simonLength',3,9,5),replayPenalty:readInt('#set_g5_replayPenalty',0,20,4),finalTime:readInt('#set_g5_finalTime',3,20,6),minSuccess:readInt('#set_g5_minSuccess',0,100,40)};
+  g.g6={time:readInt('#set_g6_time',120,240,165),target:readInt('#set_g6_target',100,800,260),unlockMode:$('#set_g6_unlockMode').value==='instant'?'instant':'timer',maxSimultaneous:readInt('#set_g6_maxSimultaneous',2,5,5),buttonsPerPlayer:readInt('#set_g6_buttonsPerPlayer',2,6,4),maxHolders:readInt('#set_g6_maxHolders',1,5,4),chainLength:readInt('#set_g6_chainLength',3,5,5),allHandsChance:readInt('#set_g6_allHandsChance',0,60,25),syncWindow:readInt('#set_g6_syncWindow',200,1200,520),holdMs:readInt('#set_g6_holdMs',600,3000,1200),eventTimeout:readInt('#set_g6_eventTimeout',900,5000,2100),nextDelay:readInt('#set_g6_nextDelay',120,1200,380),mistakePenalty:readInt('#set_g6_mistakePenalty',0,30,4),sound:$('#set_g6_sound').value==='1'?1:0};
+  g.g7={time:readInt('#set_g7_time',90,240,150),targetPasses:readInt('#set_g7_targetPasses',20,200,55),spawnMs:readInt('#set_g7_spawnMs',450,1800,900),speed:readInt('#set_g7_speed',140,520,250),hitPenalty:readInt('#set_g7_hitPenalty',1,20,6),syncChance:readInt('#set_g7_syncChance',0,60,20)};
+  g.g8={time:readInt('#set_g8_time',90,240,150),target:readInt('#set_g8_target',100,1500,500),roundMs:readInt('#set_g8_roundMs',2200,8000,4600),syncWindow:readInt('#set_g8_syncWindow',250,1500,650),mashCount:readInt('#set_g8_mashCount',2,12,5),penalty:readInt('#set_g8_penalty',0,30,8)};
+  return g;
+}
+function renderSettingSummary(){const g=config.games,el=$('#settingSummary');if(!el)return;el.innerHTML=`<div><b>密碼破解</b><small>${g.g1.time}秒／最多${g.g1.maxTries}次／${g.g1.codeLength}碼</small></div><div><b>防火牆</b><small>${g.g2.size}×${g.g2.size}／${g.g2.time}秒／${g.g2.gateCount}閘門</small></div><div><b>華容道</b><small>${g.g3.time}秒／打亂${g.g3.scramble}步</small></div><div><b>攔截戰</b><small>${g.g4.time}秒／目標${g.g4.target}分</small></div><div><b>五段鎖</b><small>${g.g5.time}秒／燈號${g.g5.simonLength}步</small></div><div><b>同步解鎖</b><small>${g.g6.time}秒／每區${g.g6.buttonsPerPlayer||4}鍵／最多${g.g6.maxSimultaneous}人同步</small></div><div><b>重力逃生</b><small>${g.g7.time}秒／目標通過${g.g7.targetPasses}／同步門${g.g7.syncChance}%</small></div><div><b>DATA PARTY</b><small>${g.g8.time}秒／目標${g.g8.target}分／每人連打${g.g8.mashCount}次</small></div>`}
+
+function updateGameLabels(){
+  const g=config.games;
+  $('#g4start').textContent=`開始 ${g.g4.time} 秒挑戰`;
+  const g4intro=$('#g4 .intro');if(g4intro)g4intro.textContent=`在 ${g.g4.time} 秒內攔截有效資料、避開病毒，利用連擊倍率衝到 ${g.g4.target} 分即可解鎖。`;
+  $$('#g1symbols .symbol-btn').forEach((b,i)=>b.classList.toggle('hidden',i>=g.g1.symbolCount));
+  $('#g6time').textContent=g.g6.time;$('#g6charge').textContent='0';const g6den=$('#g6charge')?.parentElement;if(g6den)g6den.innerHTML=`充能 <b id="g6charge">0</b>/${g.g6.target}`;$('#g7time').textContent=g.g7.time;$('#g7passes').textContent='0';$('#g8time').textContent=g.g8.time;$('#g8points').textContent='0';
+}
+$$('#settingsTabs button').forEach(b=>b.addEventListener('click',()=>{$$('#settingsTabs button').forEach(x=>x.classList.toggle('active',x===b));$$('.settings-pane').forEach(p=>p.classList.toggle('active',p.dataset.pane===b.dataset.setting))}));
+$('#saveGameSettings').addEventListener('click',()=>{config.games=collectGameSettings();persistConfig();renderGameSettings();updateGameLabels();g6BuildButtons();toast('遊戲基本設定已儲存，下一局開始套用')});
+$('#resetGameSettings').addEventListener('click',()=>{if(!confirm('確定將八款遊戲設定全部恢復預設值？'))return;config.games=clone(DEFAULT_GAMES);persistConfig();renderGameSettings();updateGameLabels();g6BuildButtons();toast('遊戲設定已恢復預設值')});
+function openAdmin(){const v=prompt('請輸入工作人員 PIN');if(v===null)return;if(v!==String(config.pin)){toast('PIN 不正確');return}$('#playView').classList.add('hidden');$('#adminView').classList.remove('hidden');renderAdmin();renderGameSettings();window.scrollTo({top:0})}
+function closeAdmin(){$('#adminView').classList.add('hidden');$('#playView').classList.remove('hidden');renderMissionBadge();hideAllClues();window.scrollTo({top:0})}
+$('#openAdmin').addEventListener('click',openAdmin);$('#backToPlay').addEventListener('click',closeAdmin);
+$('#savePin').addEventListener('click',()=>{const p=$('#adminPin').value.trim();if(p.length<3){toast('PIN 至少 3 碼');return}config.pin=p;persistConfig();toast('PIN 已更新')});
+$('#addMission').addEventListener('click',()=>{let n=1,code='';do{code=String(n).padStart(2,'0');n++}while(config.missions.some(x=>x.code===code));const m={code,name:`任務 ${code}`,clue:'請輸入此任務解鎖後要顯示的關鍵情報。'};config.missions.push(m);editingCode=code;persistConfig();renderAdmin();toast('已新增任務包')});
+$('#saveMission').addEventListener('click',()=>{const code=$('#editCode').value.trim(),name=$('#editName').value.trim(),clue=$('#editClue').value.trim();if(!code){toast('任務代碼不能空白');return}if(!clue){toast('請填寫關鍵情報');return}const dup=config.missions.find(x=>x.code===code&&x.code!==editingCode);if(dup){toast('任務代碼重複');return}let m=config.missions.find(x=>x.code===editingCode);if(!m){m={code,name,clue};config.missions.push(m)}else{const old=m.code;m.code=code;m.name=name;m.clue=clue;if(config.active===old)config.active=code}editingCode=code;persistConfig();renderAdmin();toast('任務包已儲存')});
+$('#setActiveMission').addEventListener('click',()=>{const code=$('#editCode').value.trim();const m=config.missions.find(x=>x.code===editingCode)||config.missions.find(x=>x.code===code);if(!m){toast('請先儲存任務包');return}config.active=m.code;persistConfig();renderAdmin();toast(`目前任務已切換為 ${m.code}`)});
+$('#deleteMission').addEventListener('click',()=>{if(config.missions.length<=1){toast('至少要保留 1 個任務包');return}const m=config.missions.find(x=>x.code===editingCode);if(!m)return;if(!confirm(`確定刪除任務 ${m.code}？`))return;config.missions=config.missions.filter(x=>x!==m);if(config.active===m.code)config.active=config.missions[0].code;editingCode=config.active;persistConfig();renderAdmin();toast('任務包已刪除')});
+$('#resetMissions').addEventListener('click',()=>{if(!confirm('恢復預設任務包？目前任務包內容會被覆蓋，但遊戲設定與分數紀錄不受影響。'))return;const pin=config.pin,games=clone(config.games);config=clone(DEFAULT_CONFIG);config.pin=pin||'2580';config.games=games;editingCode=config.active;persistConfig();renderAdmin();renderGameSettings();toast('已恢復預設任務包')});
+$('#clearScores').addEventListener('click',()=>{if(confirm('確定清空所有分數紀錄？')){scores=[];if(storageOK)localStorage.removeItem(SCORE_KEY);renderScores();toast('分數已清空')}});
+$('#exportScores').addEventListener('click',()=>{if(!scores.length){toast('目前沒有可匯出的分數');return}const rows=[['時間','隊伍','任務代碼','遊戲','分數','結果'],...scores.map(x=>[x.time,x.team,x.mission||'',GAME_NAMES[x.game]||x.game,x.score,x.result])];const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='PAD小遊戲分數.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+$$('#nav button').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.game;$$('#nav button').forEach(x=>x.classList.toggle('active',x===b));$$('.game').forEach(g=>g.classList.toggle('active',g.id===id));window.scrollTo({top:145,behavior:'smooth'})}));
+
+// ---------- G1 Mastermind ----------
+const G1SYMS=['▲','◆','●','■','★','✚'];
+let g1={code:[],input:[],tries:0,left:120,timer:null,running:false,ended:false,wrong:0};
+function g1Render(){const cfg=gs('g1'),s=$('#g1slots');s.innerHTML='';for(let i=0;i<cfg.codeLength;i++){const d=document.createElement('div');d.className='slot';d.textContent=g1.input[i]||'·';s.appendChild(d)}$('#g1tries').textContent=g1.tries;$('#g1time').textContent=g1.left;$('#g1score').textContent=Math.max(0,100-g1.wrong*cfg.wrongPenalty-Math.floor((cfg.time-g1.left)/15)*2)}
+function g1Start(){const cfg=gs('g1');clearInterval(g1.timer);g1={code:shuffle(G1SYMS.slice(0,cfg.symbolCount)).slice(0,cfg.codeLength),input:[],tries:0,left:cfg.time,timer:null,running:true,ended:false,wrong:0};$('#g1history').innerHTML='<div class="empty">開始後會顯示每次嘗試。</div>';$('#g1clue').classList.remove('show');g1Render();g1.timer=setInterval(()=>{if(!g1.running)return;g1.left--;g1Render();if(g1.left<=0)g1End(false,'時間到')},1000)}
+function g1End(ok,msg){if(g1.ended)return;const cfg=gs('g1');g1.running=false;g1.ended=true;clearInterval(g1.timer);const score=ok?Math.max(cfg.minSuccess,100-g1.wrong*cfg.wrongPenalty-Math.floor((cfg.time-g1.left)/15)*2):30;finishWithClue('g1',ok,score,ok?'破解成功':'未破解','#g1clue','#g1result',msg,`${msg}，未完成破解`)}
+function g1Submit(){const cfg=gs('g1');if(!g1.running||g1.input.length!==cfg.codeLength){toast(`請先填滿 ${cfg.codeLength} 個符號`);return}g1.tries++;let exact=0,mis=0;g1.input.forEach((v,i)=>{if(v===g1.code[i])exact++;else if(g1.code.includes(v))mis++});$$('.history-row',$('#g1history')).forEach(x=>x.classList.remove('latest'));const empty=$('.empty',$('#g1history'));if(empty)empty.remove();const row=document.createElement('div');row.className='history-row latest';row.innerHTML=`<b class="guess">${g1.input.join(' ')}</b><span class="feedback">位置正確 ${exact}｜符號正確位置錯 ${mis}</span>`;$('#g1history').prepend(row);if(exact===cfg.codeLength){g1End(true,'密碼破解成功');return}g1.wrong++;if(g1.tries>=cfg.maxTries){g1End(false,`已達 ${cfg.maxTries} 次嘗試`);return}g1.input=[];g1Render()}
+const sy=$('#g1symbols');G1SYMS.forEach((v,idx)=>{const b=document.createElement('button');b.className='symbol-btn';b.textContent=v;b.dataset.symbolIndex=idx;b.addEventListener('click',()=>{if(!g1.running)g1Start();const cfg=gs('g1');if(idx>=cfg.symbolCount)return;if(g1.input.length<cfg.codeLength&&!g1.input.includes(v)){g1.input.push(v);g1Render()}});sy.appendChild(b)});$('#g1back').addEventListener('click',()=>{g1.input.pop();g1Render()});$('#g1submit').addEventListener('click',g1Submit);$('#g1start').addEventListener('click',g1Start);
+
+// ---------- G2 Large Maze ----------
+let g2={maze:[],gates:[],r:1,c:1,left:90,hits:0,steps:0,timer:null,gateTimer:null,on:false,running:false,ended:false,size:13};
+function carveMaze(n){const m=Array.from({length:n},()=>Array(n).fill('#'));const stack=[[1,1]];m[1][1]='.';const dirs=[[2,0],[-2,0],[0,2],[0,-2]];while(stack.length){const [r,c]=stack[stack.length-1];const cand=shuffle(dirs).map(([dr,dc])=>[r+dr,c+dc,dr,dc]).filter(([nr,nc])=>nr>0&&nc>0&&nr<n-1&&nc<n-1&&m[nr][nc]==='#');if(!cand.length){stack.pop();continue}const [nr,nc,dr,dc]=cand[0];m[r+dr/2][c+dc/2]='.';m[nr][nc]='.';stack.push([nr,nc])}m[1][1]='S';m[n-2][n-2]='G';return m}
+function g2ChooseGates(){const cfg=gs('g2'),open=[];for(let r=1;r<g2.size-1;r++)for(let c=1;c<g2.size-1;c++)if(g2.maze[r][c]==='.'&&Math.abs(r-1)+Math.abs(c-1)>4&&Math.abs(r-(g2.size-2))+Math.abs(c-(g2.size-2))>4)open.push([r,c]);g2.gates=shuffle(open).slice(0,Math.min(cfg.gateCount,open.length))}
+function g2Draw(){const cfg=gs('g2'),m=$('#maze');m.style.gridTemplateColumns=`repeat(${g2.size},minmax(0,1fr))`;m.style.gridTemplateRows=`repeat(${g2.size},minmax(0,1fr))`;m.innerHTML='';for(let r=0;r<g2.size;r++)for(let c=0;c<g2.size;c++){const d=document.createElement('div');d.className='cell';if(g2.maze[r][c]==='#')d.classList.add('wall');if(g2.maze[r][c]==='G')d.classList.add('goal');if(g2.gates.some(x=>x[0]===r&&x[1]===c)){d.classList.add('gate');if(g2.on)d.classList.add('on')}if(g2.r===r&&g2.c===c)d.classList.add('player');m.appendChild(d)}$('#g2time').textContent=g2.left;$('#g2hits').textContent=g2.hits;$('#g2steps').textContent=g2.steps;$('#g2score').textContent=Math.max(0,100-g2.hits*cfg.hitPenalty-Math.floor(Math.max(0,g2.steps-(g2.size*2+9))/8)*2-Math.floor((cfg.time-g2.left)/18)*2)}
+function g2Start(){const cfg=gs('g2');clearInterval(g2.timer);clearInterval(g2.gateTimer);g2={maze:carveMaze(cfg.size),gates:[],r:1,c:1,left:cfg.time,hits:0,steps:0,timer:null,gateTimer:null,on:false,running:true,ended:false,size:cfg.size};g2ChooseGates();$('#g2clue').classList.remove('show');g2Draw();g2.timer=setInterval(()=>{g2.left--;g2Draw();if(g2.left<=0)g2End(false)},1000);g2.gateTimer=setInterval(()=>{g2.on=!g2.on;g2Draw()},cfg.gateInterval)}
+function g2End(ok){if(g2.ended)return;const cfg=gs('g2');g2.ended=true;g2.running=false;clearInterval(g2.timer);clearInterval(g2.gateTimer);const score=ok?Math.max(cfg.minSuccess,100-g2.hits*cfg.hitPenalty-Math.floor(Math.max(0,g2.steps-(g2.size*2+9))/8)*2-Math.floor((cfg.time-g2.left)/18)*2):25;finishWithClue('g2',ok,score,ok?'突破成功':'未突破','#g2clue','#g2result','成功突破大型防火牆','時間到，未能突破防火牆')}
+function g2Move(dir){if(!g2.running)return;const cfg=gs('g2'),ds={up:[-1,0],down:[1,0],left:[0,-1],right:[0,1]};const [dr,dc]=ds[dir];const nr=g2.r+dr,nc=g2.c+dc;if(nr<0||nc<0||nr>=g2.size||nc>=g2.size||g2.maze[nr][nc]==='#'){toast('這裡被阻擋');return}g2.r=nr;g2.c=nc;g2.steps++;if(g2.gates.some(x=>x[0]===nr&&x[1]===nc)&&g2.on){g2.hits++;toast(`撞上啟動中的防火牆，扣 ${cfg.hitPenalty} 分！`)}g2Draw();if(g2.maze[nr][nc]==='G')g2End(true)}
+$$('[data-move]').forEach(b=>b.addEventListener('click',()=>g2Move(b.dataset.move)));$('#g2start').addEventListener('click',g2Start);
+
+// ---------- G3 Klotski ----------
+const KCOLS=4,KROWS=5;
+const KSOLVED=[
+  {id:'A',x:0,y:0,w:1,h:2,type:'unit',label:'A'},
+  {id:'E',x:1,y:0,w:2,h:1,type:'unit',label:'E'},
+  {id:'B',x:3,y:0,w:1,h:2,type:'unit',label:'B'},
+  {id:'s1',x:1,y:1,w:1,h:1,type:'soldier',label:'1'},
+  {id:'s2',x:2,y:1,w:1,h:1,type:'soldier',label:'2'},
+  {id:'D',x:0,y:2,w:1,h:2,type:'unit',label:'D'},
+  {id:'s3',x:1,y:2,w:1,h:1,type:'soldier',label:'3'},
+  {id:'s4',x:2,y:2,w:1,h:1,type:'soldier',label:'4'},
+  {id:'F',x:3,y:2,w:1,h:2,type:'unit',label:'F'},
+  {id:'core',x:1,y:3,w:2,h:2,type:'core',label:'核心資料'}
+];
+let g3={blocks:[],initial:[],selected:'core',left:120,moves:0,timer:null,running:false,ended:false};
+function kcopy(bs){return bs.map(b=>({...b}))}
+function kOcc(blocks,ignore){const set=new Set();blocks.forEach(b=>{if(b.id===ignore)return;for(let yy=b.y;yy<b.y+b.h;yy++)for(let xx=b.x;xx<b.x+b.w;xx++)set.add(`${xx},${yy}`)});return set}
+function kCanMove(blocks,b,dx,dy){const nx=b.x+dx,ny=b.y+dy;if(nx<0||ny<0||nx+b.w>KCOLS||ny+b.h>KROWS)return false;const occ=kOcc(blocks,b.id);for(let yy=ny;yy<ny+b.h;yy++)for(let xx=nx;xx<nx+b.w;xx++)if(occ.has(`${xx},${yy}`))return false;return true}
+function kLegalMoves(blocks){const out=[];blocks.forEach(b=>[[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx,dy])=>{if(kCanMove(blocks,b,dx,dy))out.push([b.id,dx,dy])}));return out}
+function kScramble(){
+  const steps=gs('g3').scramble;
+  for(let attempt=0;attempt<80;attempt++){
+    let bs=kcopy(KSOLVED),prev='';
+    for(let i=0;i<steps;i++){
+      let ms=kLegalMoves(bs);
+      if(prev){const filtered=ms.filter(m=>`${m[0]},${-m[1]},${-m[2]}`!==prev);if(filtered.length)ms=filtered}
+      const m=ms[Math.floor(Math.random()*ms.length)];if(!m)break;
+      const b=bs.find(x=>x.id===m[0]);b.x+=m[1];b.y+=m[2];prev=`${m[0]},${m[1]},${m[2]}`;
+    }
+    const core=bs.find(x=>x.id==='core');
+    if(!(core.x===1&&core.y===3))return bs;
+  }
+  let fallback=kcopy(KSOLVED);
+  const apply=(id,dx,dy)=>{const b=fallback.find(x=>x.id===id);if(kCanMove(fallback,b,dx,dy)){b.x+=dx;b.y+=dy}};
+  apply('D',0,1);apply('F',0,1);apply('s3',-1,0);apply('s4',1,0);apply('core',0,-1);
+  return fallback;
+}
+function g3Draw(){const board=$('#klotskiBoard');board.innerHTML='';g3.blocks.forEach(b=>{const el=document.createElement('button');el.type='button';el.className=`kblock ${b.type}${g3.selected===b.id?' selected':''}`;el.textContent=b.label;el.style.left=`${b.x/KCOLS*100}%`;el.style.top=`${b.y/KROWS*100}%`;el.style.width=`${b.w/KCOLS*100}%`;el.style.height=`${b.h/KROWS*100}%`;el.addEventListener('click',()=>{g3.selected=b.id;g3Draw()});board.appendChild(el)});$('#g3time').textContent=g3.left;$('#g3moves').textContent=g3.moves;{const cfg=gs('g3');$('#g3score').textContent=Math.max(0,100-Math.max(0,g3.moves-cfg.freeMoves)*cfg.movePenalty-Math.floor((cfg.time-g3.left)/20)*2)}}
+function g3Start(){clearInterval(g3.timer);g3.blocks=kScramble();g3.initial=kcopy(g3.blocks);g3.selected='core';g3.left=gs('g3').time;g3.moves=0;g3.running=true;g3.ended=false;$('#g3clue').classList.remove('show');g3Draw();g3.timer=setInterval(()=>{g3.left--;g3Draw();if(g3.left<=0)g3End(false)},1000)}
+function g3Reset(){if(!g3.initial.length)return;g3.blocks=kcopy(g3.initial);g3.selected='core';g3.moves=0;g3Draw();toast('已復原本題')}
+function g3Move(dir){if(!g3.running)return;const d={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];const b=g3.blocks.find(x=>x.id===g3.selected);if(!b)return;if(!kCanMove(g3.blocks,b,d[0],d[1])){toast('這個方向被擋住');return}b.x+=d[0];b.y+=d[1];g3.moves++;g3Draw();const core=g3.blocks.find(x=>x.id==='core');if(core.x===1&&core.y===3)g3End(true)}
+function g3End(ok){if(g3.ended)return;g3.ended=true;g3.running=false;clearInterval(g3.timer);const cfg=gs('g3');const score=ok?Math.max(cfg.minSuccess,100-Math.max(0,g3.moves-cfg.freeMoves)*cfg.movePenalty-Math.floor((cfg.time-g3.left)/20)*2):30;finishWithClue('g3',ok,score,ok?'核心送達':'未送達','#g3clue','#g3result','核心資料成功送達出口','時間到，核心資料尚未送達')}
+$$('[data-kmove]').forEach(b=>b.addEventListener('click',()=>g3Move(b.dataset.kmove)));$('#g3start').addEventListener('click',g3Start);$('#g3reset').addEventListener('click',g3Reset);
+
+// ---------- G4 Stream Combo ----------
+let g4={left:50,pts:0,combo:0,multi:1,timer:null,spawn:null,running:false,ended:false,startTime:0};
+function g4Start(){const cfg=gs('g4');clearInterval(g4.timer);clearInterval(g4.spawn);g4={left:cfg.time,pts:0,combo:0,multi:1,timer:null,spawn:null,running:true,ended:false,startTime:Date.now()};$('#g4clue').classList.remove('show');$('#streamBoard').innerHTML='';g4Render();g4.timer=setInterval(()=>{g4.left--;g4Render();if(g4.left<=0)g4End(g4.pts>=cfg.target)},1000);g4.spawn=setInterval(g4Spawn,cfg.spawn);for(let i=0;i<4;i++)setTimeout(g4Spawn,i*Math.max(100,cfg.spawn/2))}
+function g4Render(){const cfg=gs('g4');g4.multi=1+Math.min(2,Math.floor(g4.combo/cfg.comboStep));$('#g4time').textContent=g4.left;$('#g4points').textContent=g4.pts;$('#g4combo').textContent=g4.combo;$('#g4multi').textContent=`×${g4.multi}`}
+function g4Spawn(){if(!g4.running)return;const cfg=gs('g4'),progress=(cfg.time-g4.left)/cfg.time;const types=[['DATA','good',5],['DATA','good',5],['LINK','bonus',8],['BONUS','jackpot',15],[`+${cfg.timeBonus}s`,'time',0],['VIRUS','bad',-10],['ERROR','error',-6]];let [txt,cls,val]=types[Math.floor(Math.random()*types.length)];const b=document.createElement('button');b.className=`token ${cls}`;b.textContent=txt;const lane=Math.floor(Math.random()*3);b.style.left=`calc(${lane*33.333}% + ${5+Math.random()*11}%)`;b.style.animationDuration=`${Math.max(.85,cfg.fall-progress*Math.min(1.2,cfg.fall*.35)+Math.random()*.55)}s`;b.addEventListener('click',()=>{if(!g4.running)return;if(cls==='time'){g4.left=Math.min(cfg.time+cfg.timeBonus,g4.left+cfg.timeBonus);g4.combo++;toast(`+${cfg.timeBonus} 秒`)}else if(val>0){g4.combo++;g4Render();g4.pts+=val*g4.multi}else{g4.pts=Math.max(0,g4.pts+val);g4.combo=0}g4Render();b.remove();if(g4.pts>=cfg.target)g4End(true)});b.addEventListener('animationend',()=>{if(g4.running&&(cls==='good'||cls==='bonus'||cls==='jackpot')){g4.combo=0;g4Render()}b.remove()});$('#streamBoard').appendChild(b)}
+function g4End(ok){if(g4.ended)return;const cfg=gs('g4');g4.ended=true;g4.running=false;clearInterval(g4.timer);clearInterval(g4.spawn);$$('.token',$('#streamBoard')).forEach(x=>x.remove());const score=ok?Math.min(100,65+Math.max(0,Math.round(g4.left/cfg.time*35))):Math.min(60,Math.round(g4.pts/cfg.target*60));finishWithClue('g4',ok,score,ok?'達標解鎖':'未達標','#g4clue','#g4result',`資料完整度達到 ${cfg.target} 分`,`未達 ${cfg.target} 分`)}
+$('#g4start').addEventListener('click',g4Start);
+
+// ---------- G5 Five Locks ----------
+let g5={stage:0,left:150,timer:null,running:false,ended:false,mistakes:0,penalty:0,cleanup:null};
+function g5Progress(){const cfg=gs('g5'),p=$('#lockProgress');p.innerHTML='';for(let i=1;i<=5;i++){const d=document.createElement('div');d.className='lock-dot'+(i<=g5.stage?' done':'');d.textContent=(i<=g5.stage?'🔓 ':'🔒 ')+`LOCK ${i}`;p.appendChild(d)}$('#g5stageNum').textContent=g5.stage;$('#g5time').textContent=g5.left;$('#g5score').textContent=Math.max(0,100-g5.penalty-Math.floor((cfg.time-g5.left)/25)*2)}
+function g5Start(){clearInterval(g5.timer);if(g5.cleanup)g5.cleanup();g5={stage:0,left:gs('g5').time,timer:null,running:true,ended:false,mistakes:0,penalty:0,cleanup:null};$('#g5clue').classList.remove('show');g5Progress();g5.timer=setInterval(()=>{g5.left--;g5Progress();if(g5.left<=0)g5End(false)},1000);g5Next()}
+function g5Fail(msg){const cfg=gs('g5');g5.mistakes++;g5.penalty+=cfg.mistakePenalty;toast(msg||'失誤一次，再試一次');g5Progress()}
+function g5DoneStage(){if(g5.cleanup){g5.cleanup();g5.cleanup=null}g5.stage++;g5Progress();if(g5.stage>=5){g5End(true);return}setTimeout(g5Next,350)}
+function g5End(ok){if(g5.ended)return;g5.ended=true;g5.running=false;clearInterval(g5.timer);if(g5.cleanup)g5.cleanup();const cfg=gs('g5');const score=ok?Math.max(cfg.minSuccess,100-g5.penalty-Math.floor((cfg.time-g5.left)/25)*2):30;finishWithClue('g5',ok,score,ok?'五鎖解除':'未完成','#g5clue','#g5result','五段安全鎖解除','時間到，安全鎖尚未解除');$('#stageArea').innerHTML='<button class="btn" id="g5again">再玩一次</button>';$('#g5again').addEventListener('click',g5Start)}
+function g5Next(){if(!g5.running)return;const area=$('#stageArea');area.innerHTML='';if(g5.stage===0)stageDial(area);else if(g5.stage===1)stageGrid(area);else if(g5.stage===2)stageTiming(area);else if(g5.stage===3)stageSimon(area);else stageFinal(area)}
+function stageDial(area){const title=document.createElement('div');title.className='stage-title';title.textContent='LOCK 1｜磁場對齊';const p=document.createElement('p');p.className='help';p.textContent='點擊圓盤。每次會轉動自己與右邊一格，讓四個箭頭都朝上。';const row=document.createElement('div');row.className='dial-row';let v=[0,0,0,0];for(let n=0;n<7;n++){const i=Math.floor(Math.random()*4);v[i]=(v[i]+1)%4;v[(i+1)%4]=(v[(i+1)%4]+1)%4}const arrows=['↑','→','↓','←'];function render(){row.innerHTML='';v.forEach((x,i)=>{const b=document.createElement('button');b.className='dial';b.textContent=arrows[x];b.addEventListener('click',()=>{v[i]=(v[i]+1)%4;v[(i+1)%4]=(v[(i+1)%4]+1)%4;render();if(v.every(z=>z===0))setTimeout(g5DoneStage,180)});row.appendChild(b)})}render();area.append(title,p,row)}
+function stageGrid(area){const title=document.createElement('div');title.className='stage-title';title.textContent='LOCK 2｜記憶閘門';const p=document.createElement('p');p.className='help';const cfg=gs('g5');p.textContent=`記住亮起的 ${cfg.gridCount} 格；熄滅後把它們全部點回來。`;const grid=document.createElement('div');grid.className='grid16';const target=shuffle([...Array(16).keys()]).slice(0,cfg.gridCount);let chosen=new Set();for(let i=0;i<16;i++){const b=document.createElement('button');if(target.includes(i))b.classList.add('lit');b.disabled=true;grid.appendChild(b)}area.append(title,p,grid);function enable(){chosen=new Set();$$('button',grid).forEach((b,i)=>{b.classList.remove('lit','selected');b.disabled=false;b.onclick=()=>{if(chosen.has(i))return;chosen.add(i);b.classList.add('selected');if(chosen.size===cfg.gridCount){const ok=[...chosen].every(x=>target.includes(x));if(ok)g5DoneStage();else{g5Fail('有位置不對，再看一次');replay()}}}})}function replay(){chosen.clear();$$('button',grid).forEach(b=>{b.disabled=true;b.classList.remove('selected')});target.forEach(x=>grid.children[x].classList.add('lit'));setTimeout(enable,Math.max(500,cfg.gridShow-500))}const tm=setTimeout(enable,cfg.gridShow);g5.cleanup=()=>clearTimeout(tm)}
+function stageTiming(area){const title=document.createElement('div');title.className='stage-title';title.textContent='LOCK 3｜脈衝同步';const p=document.createElement('p');p.className='help';p.textContent='黃色游標進入綠色區域時按下「同步」。';const bar=document.createElement('div');bar.className='timing';bar.innerHTML='<div class="zone"></div><div class="marker"></div>';const btn=document.createElement('button');btn.className='btn primary';btn.style.marginTop='16px';btn.textContent='同步';area.append(title,p,bar,btn);let pos=0,dir=1;const marker=$('.marker',bar);const iv=setInterval(()=>{pos+=dir*1.8;if(pos>=98){pos=98;dir=-1}if(pos<=0){pos=0;dir=1}marker.style.left=pos+'%'},20);btn.addEventListener('click',()=>{if(pos>=41&&pos<=57){clearInterval(iv);g5DoneStage()}else g5Fail('時機差一點，再抓一次')});g5.cleanup=()=>clearInterval(iv)}
+function stageSimon(area){
+  const title=document.createElement('div');title.className='stage-title';title.textContent='LOCK 4｜訊號追蹤';
+  const p=document.createElement('p');p.className='help';const cfg=gs('g5');p.textContent=`看清楚 ${cfg.simonLength} 次燈號順序，再照相同順序按回去。沒看清楚可以重播；按錯也能清除後重新輸入。`;
+  const box=document.createElement('div');box.className='simon';for(let i=0;i<4;i++){const b=document.createElement('button');b.className='s'+(i+1);box.appendChild(b)}
+  const info=document.createElement('div');info.className='pill';info.style.margin='12px auto 0';info.style.width='fit-content';
+  const tools=document.createElement('div');tools.className='simon-tools';const replay=document.createElement('button');replay.className='btn';replay.textContent='重播燈號';const clear=document.createElement('button');clear.className='btn';clear.textContent='清除輸入';tools.append(replay,clear);area.append(title,p,box,info,tools);
+  const seq=Array.from({length:cfg.simonLength},()=>Math.floor(Math.random()*4));let idx=0,showTimer=null,showing=false;
+  function update(){info.textContent=showing?'正在播放燈號…':`已輸入 ${idx} / ${seq.length}`}
+  function enableButtons(v){[...box.children].forEach(b=>b.disabled=!v)}
+  function playSequence(penalize=false){if(showing)return;if(penalize&&cfg.replayPenalty>0){g5.penalty+=cfg.replayPenalty;g5Progress();toast(`重播燈號：扣 ${cfg.replayPenalty} 分`)}idx=0;showing=true;enableButtons(false);update();let step=0;function next(){if(step>0)box.children[seq[step-1]].classList.remove('flash');if(step>=seq.length){showing=false;enableButtons(true);update();return}box.children[seq[step]].classList.add('flash');step++;showTimer=setTimeout(next,560)}next()}
+  [...box.children].forEach((b,i)=>b.addEventListener('click',()=>{if(showing)return;b.classList.add('flash');setTimeout(()=>b.classList.remove('flash'),120);if(i===seq[idx]){idx++;update();if(idx===seq.length)g5DoneStage()}else{g5Fail('順序錯了，可以直接重新輸入或重播');idx=0;update()}}));
+  replay.addEventListener('click',()=>playSequence(true));clear.addEventListener('click',()=>{idx=0;update();toast('已清除目前輸入')});
+  playSequence(false);g5.cleanup=()=>{clearTimeout(showTimer)};
+}
+function stageFinal(area){const title=document.createElement('div');title.className='stage-title';title.textContent='LOCK 5｜最終授權';const p=document.createElement('p');p.className='help';const cfg=gs('g5');p.textContent=`最後一道鎖：在 ${cfg.finalTime} 秒內依「小 → 大」順序點擊數字。`;area.innerHTML='';const nums=shuffle([2,5,1,4,3]);const row=document.createElement('div');row.className='symbol-row';let expect=1,left=cfg.finalTime,iv=null;nums.forEach(n=>{const b=document.createElement('button');b.className='symbol-btn';b.textContent=n;b.addEventListener('click',()=>{if(n===expect){b.disabled=true;b.style.opacity=.25;expect++;if(expect===6){clearInterval(iv);g5DoneStage()}}else g5Fail('順序不對，繼續找目前最小的未完成數字')});row.appendChild(b)});const tm=document.createElement('div');tm.className='pill';tm.style.margin='14px auto 0';tm.style.width='fit-content';tm.textContent=`剩餘 ${cfg.finalTime} 秒`;area.append(title,p,row,tm);iv=setInterval(()=>{left--;tm.textContent=`剩餘 ${left} 秒`;if(left<=0){clearInterval(iv);g5Fail('超時，重新開始最後一道鎖');stageFinal(area)}},1000);g5.cleanup=()=>clearInterval(iv)}
+$('#g5start').addEventListener('click',g5Start);
+
+// ---------- G6 Five-player Sync Unlock V5 ----------
+let g6={left:165,charge:0,combo:0,errors:0,running:false,ended:false,event:null,pressed:new Set(),mainTimer:null,eventTimer:null,holdTimer:null,nextTimer:null,countdown:[],muted:false,lastType:'',audio:null,holdStartedAt:0};
+function g6Cfg(){return gs('g6')}
+function g6ClearTimers(keepMain=false){clearTimeout(g6.eventTimer);clearTimeout(g6.holdTimer);clearTimeout(g6.nextTimer);g6.eventTimer=g6.holdTimer=g6.nextTimer=null;(g6.countdown||[]).forEach(clearTimeout);g6.countdown=[];if(!keepMain){clearInterval(g6.mainTimer);g6.mainTimer=null}}
+function g6AudioInit(){if(g6.audio)return;try{g6.audio=new (window.AudioContext||window.webkitAudioContext)()}catch(e){g6.audio=null}}
+function g6Tone(freq,dur=.08,kind='sine',vol=.045,delay=0){const cfg=g6Cfg();if(!cfg.sound||g6.muted||!g6.audio)return;try{const ctx=g6.audio;const o=ctx.createOscillator(),gn=ctx.createGain();o.type=kind;o.frequency.value=freq;gn.gain.setValueAtTime(0.0001,ctx.currentTime+delay);gn.gain.exponentialRampToValueAtTime(vol,ctx.currentTime+delay+.01);gn.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+delay+dur);o.connect(gn).connect(ctx.destination);o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+dur+.02)}catch(e){}}
+function g6Pads(){return $$('.sync-pad',$('#syncBoard'))}
+function g6Pad(n){return $(`.sync-pad[data-sync="${n}"]`,$('#syncBoard'))}
+function g6ButtonSymbols(){return ['●','▲','◆','■','★','✚']}
+function g6BuildButtons(){const cfg=g6Cfg();const count=Math.max(2,Math.min(6,Number(cfg.buttonsPerPlayer)||4));g6Pads().forEach(zone=>{const grid=$('.sync-mini-grid',zone);if(!grid)return;grid.style.setProperty('--mini-cols',count<=4?2:3);grid.innerHTML='';for(let i=0;i<count;i++){const b=document.createElement('button');b.type='button';b.className='sync-mini-btn';b.dataset.mini=String(i);b.setAttribute('aria-label',`${zone.dataset.sync}號玩家第${i+1}鍵`);b.textContent=g6ButtonSymbols()[i]||String(i+1);grid.appendChild(b)}})}
+function g6MiniButton(n,idx){return $(`.sync-pad[data-sync="${n}"] .sync-mini-btn[data-mini="${idx}"]`,$('#syncBoard'))}
+function g6RandomButtonIndex(){return Math.floor(Math.random()*Math.max(2,Math.min(6,Number(g6Cfg().buttonsPerPlayer)||4)))}
+function g6SetPadAction(n,text='',kind='',buttonIndex=null){const zone=g6Pad(n);if(!zone)return;zone.classList.toggle('target',!!text);zone.classList.toggle('hold-target',kind==='hold');zone.classList.toggle('chain-target',kind==='chain');zone.style.setProperty('--hold-ms',`${g6Cfg().holdMs}ms`);const a=$('.sync-action',zone);if(a)a.textContent=text;if(kind!=='hold'&&buttonIndex!==null&&buttonIndex!==undefined){const mb=g6MiniButton(n,buttonIndex);if(mb){mb.classList.add('target');if(kind==='chain')mb.classList.add('chain-target')}}const hb=$('.sync-hold-btn',zone);if(hb)hb.style.setProperty('--hold-ms',`${g6Cfg().holdMs}ms`);const meter=$('.sync-hold-meter i',zone);if(meter){meter.style.animation='none';meter.style.width='0'}}
+function g6ResetPads(){g6Pads().forEach(zone=>{zone.classList.remove('target','pressed','good','badflash','sync-flash','hold-target','chain-target','holding','hold-armed');const a=$('.sync-action',zone);if(a)a.textContent='';$$('.sync-mini-btn',zone).forEach(b=>b.classList.remove('target','chain-target','pressed','good','badflash'));const hb=$('.sync-hold-btn',zone);if(hb)hb.classList.remove('holding','pressed');const meter=$('.sync-hold-meter i',zone);if(meter){meter.style.animation='none';meter.style.width='0'}})}
+function g6Multi(){return g6.combo>=10?2.5:g6.combo>=6?2:g6.combo>=3?1.5:1}
+function g6Render(){const cfg=g6Cfg();$('#g6time').textContent=Math.max(0,g6.left);const c=$('#g6charge');if(c)c.textContent=Math.round(g6.charge);$('#g6combo').textContent=g6.combo;$('#g6multi').textContent=`×${g6Multi()}`;const rawPct=Math.max(0,(g6.charge/cfg.target)*100),pct=Math.min(100,rawPct);$('#g6bar').style.width=pct+'%';const over=Math.round(rawPct);$('#g6core').innerHTML=`<div><b>${over}%</b><span>${rawPct>=100?'OVERDRIVE':'CORE CHARGE'}</span></div>`;$('#syncBoard').classList.toggle('overdrive',rawPct>=100||g6.combo>=6)}
+function g6SetText(main,sub=''){const e=$('#g6event'),ss=$('#g6sub');e.textContent=main;ss.textContent=sub;e.classList.remove('sync-flash');void e.offsetWidth;e.classList.add('sync-flash')}
+let g6FloatTimer=null;function g6Flash(msg,kind='',ms=430){const el=$('#g6float');if(!el)return;clearTimeout(g6FloatTimer);el.textContent=msg;el.className='g6-float-feedback show'+(kind?' '+kind:'');g6FloatTimer=setTimeout(()=>{el.className='g6-float-feedback'},ms)}
+function g6MarkTargets(list,label,kind='sync',buttonMap=null){g6ResetPads();(list||[]).forEach(n=>g6SetPadAction(n,label,kind,buttonMap?buttonMap[n]:null))}
+function g6Points(type,count=1){const base={tap:5,sync:7,chain:9,hold:10,wave:14}[type]||6;return base+Math.max(0,count-1)*3}
+function g6Success(){if(!g6.running||!g6.event||g6.event.done)return;g6.event.done=true;clearTimeout(g6.eventTimer);clearTimeout(g6.holdTimer);const count=g6.event.targets?.length||g6.event.seq?.length||1;const pts=Math.max(1,Math.round(g6Points(g6.event.type,count)*g6Multi()));g6.charge=Math.max(0,g6.charge+pts);g6.combo++;g6ResetPads();g6Render();g6Tone(620,.07,'triangle',.04);g6Tone(880,.10,'triangle',.04,.08);g6SetText(`SYNC +${pts}`,g6.charge>=g6Cfg().target?'OVERDRIVE！保持連擊，時間到才完成解鎖':'授權成功，準備下一個指令');g6Flash(`+${pts}`,'good',360);$('#syncBoard').classList.add('sync-success');setTimeout(()=>$('#syncBoard').classList.remove('sync-success'),420);if(g6Cfg().unlockMode==='instant'&&g6.charge>=g6Cfg().target){g6End(true);return}g6.nextTimer=setTimeout(g6NextEvent,g6Cfg().nextDelay)}
+function g6Fail(msg='同步失敗'){if(!g6.running||!g6.event||g6.event.done)return;g6.event.done=true;clearTimeout(g6.eventTimer);clearTimeout(g6.holdTimer);g6ResetPads();g6.errors++;g6.combo=0;g6.charge=Math.max(0,g6.charge-g6Cfg().mistakePenalty);g6Render();g6Tone(180,.14,'sawtooth',.035);g6SetText('SYNC FAILED',`${msg}｜扣 ${g6Cfg().mistakePenalty} 充能，下一個！`);g6Flash('MISS','bad',420);g6.nextTimer=setTimeout(g6NextEvent,Math.max(260,g6Cfg().nextDelay))}
+function g6RandomDistinct(count){return shuffle([1,2,3,4,5]).slice(0,Math.max(1,Math.min(5,count)))}
+function g6ChooseCount(min,max,allChance=0){max=Math.max(min,Math.min(5,max));if(max===5&&Math.random()*100<allChance)return 5;return min+Math.floor(Math.random()*(max-min+1))}
+function g6NextEvent(){if(!g6.running)return;clearTimeout(g6.eventTimer);clearTimeout(g6.holdTimer);g6.pressed.clear();g6ResetPads();const cfg=g6Cfg();let pool=['tap','sync','sync','chain','hold','hold','wave'];let type=pool[Math.floor(Math.random()*pool.length)];if(type===g6.lastType&&Math.random()<.7)type=pool[(pool.indexOf(type)+2)%pool.length];g6.lastType=type;const ev={type,done:false,targets:[],seq:[],idx:0,times:new Map(),pressed:new Set(),buttonMap:{},seqButtons:[]};g6.event=ev;let timeout=cfg.eventTimeout;
+  if(type==='tap'){ev.targets=g6RandomDistinct(1);ev.buttonMap[ev.targets[0]]=g6RandomButtonIndex();g6MarkTargets(ev.targets,'按亮起鍵','sync',ev.buttonMap);g6SetText(`玩家 ${ev.targets[0]}`,'找到自己區域裡亮起的按鈕，快速按下');}
+  if(type==='sync'){const count=g6ChooseCount(2,cfg.maxSimultaneous,cfg.allHandsChance);ev.targets=g6RandomDistinct(count);ev.targets.forEach(n=>ev.buttonMap[n]=g6RandomButtonIndex());g6MarkTargets(ev.targets,`${count}人同步`,'sync',ev.buttonMap);g6SetText(`${count} 人同步`,`每位指定玩家都有一顆亮鍵，要在 ${cfg.syncWindow}ms 內一起按下`);timeout=Math.max(timeout,cfg.syncWindow+1200);}
+  if(type==='chain'){const count=g6ChooseCount(3,cfg.chainLength,cfg.allHandsChance/2);ev.seq=g6RandomDistinct(count);ev.seqButtons=ev.seq.map(()=>g6RandomButtonIndex());const bm={[ev.seq[0]]:ev.seqButtons[0]};g6MarkTargets([ev.seq[0]],'第 1 棒','chain',bm);g6SetText(`${count} 人接力：${ev.seq.join(' → ')}`,'每一棒都要按自己區域裡亮起的按鈕');timeout=Math.round(cfg.eventTimeout*(1.18+count*.17));}
+  if(type==='hold'){const count=g6ChooseCount(1,cfg.maxHolders,cfg.allHandsChance);ev.targets=g6RandomDistinct(count);g6MarkTargets(ev.targets,`整區長按`,'hold');ev.targets.forEach(n=>{const hb=$('.sync-hold-btn',g6Pad(n));if(hb){const s=hb.querySelector('span');const sm=hb.querySelector('small');if(s)s.textContent=`玩家 ${n}｜HOLD`;if(sm)sm.textContent=`整區按住 ${(cfg.holdMs/1000).toFixed(1)} 秒`}});g6SetText(`${count} 人長按`,`紅色玩家區域會變成大型 HOLD 鍵，直接整區按住不要放`);timeout=Math.max(cfg.eventTimeout,cfg.holdMs+1700);}
+  if(type==='wave'){ev.seq=Math.random()<.5?[1,2,3,4,5]:[5,4,3,2,1];ev.seqButtons=ev.seq.map(()=>g6RandomButtonIndex());g6MarkTargets([ev.seq[0]],'第 1 棒','chain',{[ev.seq[0]]:ev.seqButtons[0]});g6SetText(`全隊接力：${ev.seq.join(' → ')}`,'五個人都會用到，每一棒找自己亮起的按鈕');timeout=Math.round(cfg.eventTimeout*2.15);}
+  g6.eventTimer=setTimeout(()=>g6Fail('反應時間超過'),timeout);
+}
+function g6StartHoldVisual(){const cfg=g6Cfg();(g6.event.targets||[]).forEach(n=>{const zone=g6Pad(n),hb=zone?$('.sync-hold-btn',zone):null;zone?.classList.add('holding','hold-armed');hb?.classList.add('holding');const meter=hb?$('.sync-hold-meter i',hb):null;if(meter){meter.style.animation='none';meter.style.width='0';void meter.offsetWidth;meter.style.animation=`g6HoldFill ${cfg.holdMs}ms linear forwards`}})}
+function g6StopHoldVisual(keepArmed=true){(g6.event?.targets||[]).forEach(n=>{const zone=g6Pad(n),hb=zone?$('.sync-hold-btn',zone):null;zone?.classList.remove('holding');if(!keepArmed)zone?.classList.remove('hold-armed');hb?.classList.remove('holding');const meter=hb?$('.sync-hold-meter i',hb):null;if(meter){meter.style.animation='none';meter.style.width='0'}})}
+function g6RefreshHoldReady(){if(!g6.event||g6.event.type!=='hold')return;const ev=g6.event,cfg=g6Cfg();ev.targets.forEach(n=>{const zone=g6Pad(n),hb=zone?$('.sync-hold-btn',zone):null;if(!zone||!hb)return;const sm=hb.querySelector('small');if(ev.pressed.has(n)){zone.classList.add('hold-armed','pressed');hb.classList.add('pressed');if(sm)sm.textContent=g6.holdTimer?'保持按住！':'已按住，等隊友';}else{zone.classList.remove('hold-armed','pressed','holding');hb.classList.remove('pressed','holding');if(sm)sm.textContent=`整區按住 ${(cfg.holdMs/1000).toFixed(1)} 秒`;}})}
+function g6TryStartGroupHold(){if(!g6.event||g6.event.type!=='hold'||g6.event.done)return;const ev=g6.event,cfg=g6Cfg();const allDown=ev.targets.every(n=>ev.pressed.has(n));if(!allDown||g6.holdTimer)return;g6StartHoldVisual();g6SetText('HOLD…',`已偵測 ${ev.targets.length}/${ev.targets.length} 人｜保持 ${Math.round(cfg.holdMs/100)/10} 秒，不要放開`);g6.holdTimer=setTimeout(()=>{g6.holdTimer=null;g6Success()},cfg.holdMs)}
+function g6MiniPress(n,idx){if(!g6.running||!g6.event||g6.event.done)return;const ev=g6.event,cfg=g6Cfg(),mb=g6MiniButton(n,idx);mb?.classList.add('pressed');setTimeout(()=>mb?.classList.remove('pressed'),140);
+  if(ev.type==='hold'){g6Fail('這一題要按住整個紅色區域');return}
+  if(ev.type==='tap'){if(n===ev.targets[0]&&idx===ev.buttonMap[n])g6Success();else g6Fail('按錯按鈕');return}
+  if(ev.type==='sync'){if(!ev.targets.includes(n)||idx!==ev.buttonMap[n]){g6Fail('有人按錯亮鍵');return}if(ev.times.has(n))return;ev.times.set(n,performance.now());if(ev.times.size===ev.targets.length){const times=[...ev.times.values()];if(Math.max(...times)-Math.min(...times)<=cfg.syncWindow)g6Success();else g6Fail('同步時間差太大')}return}
+  if(ev.type==='chain'||ev.type==='wave'){const want=ev.seq[ev.idx],wantBtn=ev.seqButtons[ev.idx];if(n!==want||idx!==wantBtn){g6Fail(`現在應該由玩家 ${want} 按亮起鍵`);return}mb?.classList.add('good');setTimeout(()=>mb?.classList.remove('good'),180);ev.idx++;if(ev.idx>=ev.seq.length){g6Success();return}const next=ev.seq[ev.idx],bm={[next]:ev.seqButtons[ev.idx]};g6MarkTargets([next],`第 ${ev.idx+1} 棒`,'chain',bm);$('#g6sub').textContent='';}
+}
+function g6HoldPress(n){if(!g6.running||!g6.event||g6.event.done)return;const ev=g6.event;if(ev.type!=='hold'){g6Fail('現在不是長按事件');return}if(!ev.targets.includes(n)){g6Fail('不是這次指定的長按玩家');return}if(ev.pressed.has(n))return;ev.pressed.add(n);g6.pressed.add(n);g6RefreshHoldReady();g6SetText(`${ev.targets.length} 人長按`,`已按住 ${ev.pressed.size}/${ev.targets.length} 人｜全部按住後開始計時`);g6TryStartGroupHold()}
+function g6HoldRelease(n){g6.pressed.delete(n);if(!g6.running||!g6.event||g6.event.done||g6.event.type!=='hold')return;if(g6.event.pressed.has(n)){g6.event.pressed.delete(n);if(g6.holdTimer){clearTimeout(g6.holdTimer);g6.holdTimer=null;g6StopHoldVisual(true);g6SetText('HOLD 中斷',`玩家 ${n} 放開了｜全部重新按住即可`)}g6RefreshHoldReady()}}
+function g6Start(){g6ClearTimers(false);g6AudioInit();if(g6.audio?.state==='suspended')g6.audio.resume().catch(()=>{});const cfg=g6Cfg();g6={...g6,left:cfg.time,charge:0,combo:0,errors:0,running:false,ended:false,event:null,pressed:new Set(),mainTimer:null,eventTimer:null,holdTimer:null,nextTimer:null,countdown:[],lastType:'',holdStartedAt:0};$('#g6clue').classList.remove('show');g6ResetPads();g6Render();let count=3;g6SetText('準備同步','每人認領 1～5 號，只操作自己的玩家區域');const tick=()=>{if(count>0){$('#g6event').textContent=String(count);$('#g6sub').textContent='';g6Flash(String(count),'count',520);g6Tone(360,.08,'square',.025);count--;g6.countdown.push(setTimeout(tick,650))}else{$('#g6event').textContent='GO!';$('#g6sub').textContent='';g6Flash('GO!','good',520);g6Tone(720,.12,'triangle',.05);g6.running=true;g6.mainTimer=setInterval(()=>{if(!g6.running)return;g6.left--;g6Render();if(g6.left<=0){const ok=g6.charge>=cfg.target;g6End(ok)}},1000);g6.nextTimer=setTimeout(g6NextEvent,450)}};g6.countdown.push(setTimeout(tick,350))}
+function g6End(ok){if(g6.ended)return;g6.ended=true;g6.running=false;g6ClearTimers(false);g6ResetPads();const cfg=g6Cfg();let score;if(ok){const over=Math.max(0,g6.charge-cfg.target);score=Math.round(Math.min(100,72+Math.min(18,over/Math.max(1,cfg.target)*55)+Math.max(0,10-g6.errors*1.5)));g6Tone(660,.12,'triangle',.05);g6Tone(880,.18,'triangle',.05,.12);g6Tone(1100,.22,'triangle',.045,.28);g6SetText('UNLOCKED',`充能 ${Math.round(g6.charge)} / ${cfg.target}｜失誤 ${g6.errors} 次`)}else{score=Math.round(Math.min(65,(g6.charge/cfg.target)*65));g6SetText('TIME OUT',`最終充能 ${Math.round(g6.charge)} / ${cfg.target}`)}g6Render();finishWithClue('g6',ok,score,ok?'同步解鎖':'未完成','#g6clue','#g6result','五人同步授權完成',`時間到，最終充能 ${Math.round(g6.charge)}/${cfg.target}`)}
+g6BuildButtons();
+const g6Board=$('#syncBoard');
+const g6HoldPointers=new Map();
+g6Board.addEventListener('pointerdown',e=>{const mini=e.target.closest('.sync-mini-btn');if(mini&&g6Board.contains(mini)){e.preventDefault();const zone=mini.closest('.sync-pad');g6MiniPress(Number(zone.dataset.sync),Number(mini.dataset.mini));return}const hb=e.target.closest('.sync-hold-btn');if(hb&&g6Board.contains(hb)){e.preventDefault();const zone=hb.closest('.sync-pad'),n=Number(zone.dataset.sync);g6HoldPointers.set(e.pointerId,n);try{hb.setPointerCapture(e.pointerId)}catch(x){}g6HoldPress(n)}},{passive:false});
+const g6HoldUp=e=>{if(!g6HoldPointers.has(e.pointerId))return;e.preventDefault?.();const n=g6HoldPointers.get(e.pointerId);g6HoldPointers.delete(e.pointerId);g6HoldRelease(n)};
+g6Board.addEventListener('pointerup',g6HoldUp,{passive:false});g6Board.addEventListener('pointercancel',g6HoldUp,{passive:false});g6Board.addEventListener('lostpointercapture',g6HoldUp,{passive:false});g6Board.addEventListener('contextmenu',e=>e.preventDefault());
+$('#g6start').addEventListener('click',g6Start);$('#g6mute').addEventListener('click',()=>{g6.muted=!g6.muted;$('#g6mute').textContent=`音效：${g6.muted?'關':'開'}`;toast(g6.muted?'同步解鎖音效已關閉':'同步解鎖音效已開啟')});
+
+
+// ---------- 全螢幕控制 ----------
+async function enterGameFullscreen(id){const el=$('#'+id);if(!el)return;el.classList.add('game-fullscreen');if(el.requestFullscreen&&!document.fullscreenElement){try{await el.requestFullscreen()}catch(e){}}try{if(screen.orientation&&screen.orientation.lock)await screen.orientation.lock('landscape')}catch(e){}}
+async function exitGameFullscreen(){try{if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock()}catch(e){}if(document.fullscreenElement&&document.exitFullscreen){try{await document.exitFullscreen()}catch(e){}}$$('.game').forEach(g=>g.classList.remove('game-fullscreen'))}
+function installFullscreenButtons(){Object.keys(GAME_NAMES).forEach(id=>{const head=$(`#${id} .game-head`);if(!head||head.querySelector('.fs-btn'))return;const b=document.createElement('button');b.type='button';b.className='btn fs-btn';b.textContent='⛶ 全螢幕';b.addEventListener('click',async()=>{if(document.fullscreenElement===b.closest('.game'))await exitGameFullscreen();else enterGameFullscreen(id)});head.appendChild(b)});document.addEventListener('fullscreenchange',()=>{$$('.fs-btn').forEach(b=>{const own=b.closest('.game');const on=document.fullscreenElement===own;b.textContent=on?'✕ 離開全螢幕':'⛶ 全螢幕';b.classList.toggle('fs-exit',on)});if(!document.fullscreenElement)$$('.game').forEach(g=>g.classList.remove('game-fullscreen'))})}
+['g1start','g2start','g3start','g4start','g5start','g6start','g7start','g8start'].forEach(id=>{const b=$('#'+id);if(b)b.addEventListener('click',()=>{const g=b.closest('.game');if(g)enterGameFullscreen(g.id)})});
+
+// ---------- G7 五人重力逃生 ----------
+const g7Canvas=$('#gravityCanvas'),g7ctx=g7Canvas.getContext('2d');
+let g7={running:false,ended:false,left:150,energy:100,passes:0,hits:0,players:[0,0,0,0,0],obstacles:[],last:0,lastSpawn:0,raf:0,timer:null,invuln:[0,0,0,0,0]};
+function g7Cfg(){return gs('g7')}
+function g7RenderHud(){const c=g7Cfg();$('#g7time').textContent=Math.max(0,g7.left);$('#g7energy').textContent=Math.max(0,Math.round(g7.energy));$('#g7passes').textContent=g7.passes;$('#g7score').textContent=Math.max(0,Math.min(100,Math.round(55+g7.energy*.35-Math.max(0,c.targetPasses-g7.passes)*.45)));$('#g7energyBar').style.width=Math.max(0,g7.energy)+'%';$$('[data-gravity]').forEach((b,i)=>b.classList.toggle('flip',g7.players[i]===1))}
+function g7ResizeCanvas(){const dpr=Math.min(2,window.devicePixelRatio||1),rect=g7Canvas.getBoundingClientRect();const w=Math.max(800,Math.round(rect.width*dpr)),h=Math.round(w/2.05);if(g7Canvas.width!==w||g7Canvas.height!==h){g7Canvas.width=w;g7Canvas.height=h}}
+function g7Spawn(){const cfg=g7Cfg(),all=Math.random()*100<cfg.syncChance;const side=Math.random()<.5?0:1;if(all){for(let lane=0;lane<5;lane++)g7.obstacles.push({lane,x:1.08,side,passed:false,sync:true})}else{const count=1+Math.floor(Math.random()*3),lanes=shuffle([0,1,2,3,4]).slice(0,count);lanes.forEach(lane=>g7.obstacles.push({lane,x:1.08,side:Math.random()<.5?0:1,passed:false,sync:false}))}}
+function g7Draw(){g7ResizeCanvas();const W=g7Canvas.width,H=g7Canvas.height,laneH=H/5;g7ctx.clearRect(0,0,W,H);g7ctx.fillStyle='#07101d';g7ctx.fillRect(0,0,W,H);for(let i=0;i<5;i++){const y=i*laneH;g7ctx.fillStyle=i%2?'#0b1729':'#0d1b30';g7ctx.fillRect(0,y,W,laneH-2);g7ctx.fillStyle='#6f86a7';g7ctx.font=`${Math.max(16,laneH*.16)}px system-ui`;g7ctx.fillText(`P${i+1}`,12,y+laneH*.24);g7ctx.strokeStyle='#243755';g7ctx.lineWidth=2;g7ctx.beginPath();g7ctx.moveTo(0,y+laneH*.5);g7ctx.lineTo(W,y+laneH*.5);g7ctx.stroke();const px=W*.13,py=y+(g7.players[i]===0?laneH*.78:laneH*.22);g7ctx.fillStyle=['#67e8f9','#a78bfa','#fbbf24','#34d399','#fb7185'][i];g7ctx.beginPath();g7ctx.arc(px,py,Math.min(18,laneH*.12),0,Math.PI*2);g7ctx.fill();}
+  g7.obstacles.forEach(o=>{const y=o.lane*laneH,ox=o.x*W,ow=Math.max(24,W*.026),oh=laneH*.43;g7ctx.fillStyle=o.sync?'#f59e0b':'#ef4444';if(o.side===1)g7ctx.fillRect(ox,y+3,ow,oh);else g7ctx.fillRect(ox,y+laneH-oh-5,ow,oh);if(o.sync){g7ctx.fillStyle='#fff7d6';g7ctx.font=`${Math.max(10,laneH*.11)}px system-ui`;g7ctx.fillText('SYNC',ox-6,y+laneH*.52)}})}
+function g7Loop(ts){if(!g7.running)return;if(!g7.last)g7.last=ts;const dt=Math.min(.04,(ts-g7.last)/1000);g7.last=ts;const cfg=g7Cfg();if(ts-g7.lastSpawn>cfg.spawnMs){g7Spawn();g7.lastSpawn=ts}const runnerX=.13;for(const o of g7.obstacles){o.x-=cfg.speed/1200*dt;const lane=o.lane;if(!o.passed&&o.x<runnerX+.025){o.passed=true;const blocked=(o.side===1?1:0);if(g7.players[lane]===blocked&&performance.now()>g7.invuln[lane]){g7.hits++;g7.energy=Math.max(0,g7.energy-cfg.hitPenalty);g7.invuln[lane]=performance.now()+650;const b=$(`[data-gravity="${lane}"]`);b?.classList.add('hit');setTimeout(()=>b?.classList.remove('hit'),260);$('#g7msg').textContent=`玩家 ${lane+1} 撞擊！團隊能量 -${cfg.hitPenalty}`;}else{g7.passes++;}}}g7.obstacles=g7.obstacles.filter(o=>o.x>-.08);g7RenderHud();g7Draw();if(g7.energy<=0){g7End(false);return}g7.raf=requestAnimationFrame(g7Loop)}
+function g7Toggle(i){if(!g7.running)return;g7.players[i]=g7.players[i]?0:1;g7RenderHud()}
+function g7Start(){cancelAnimationFrame(g7.raf);clearInterval(g7.timer);const cfg=g7Cfg();$('#g7start').disabled=true;$('#g7start').textContent='逃生進行中…';g7={running:true,ended:false,left:cfg.time,energy:100,passes:0,hits:0,players:[0,0,0,0,0],obstacles:[],last:0,lastSpawn:performance.now()-cfg.spawnMs*.5,raf:0,timer:null,invuln:[0,0,0,0,0]};$('#g7clue').classList.remove('show');$('#g7msg').textContent='GO！每人守住自己的跑道';g7RenderHud();g7.timer=setInterval(()=>{if(!g7.running)return;g7.left--;g7RenderHud();if(g7.left<=0)g7End(g7.passes>=cfg.targetPasses&&g7.energy>0)},1000);g7.raf=requestAnimationFrame(g7Loop)}
+function g7End(ok){if(g7.ended)return;g7.ended=true;g7.running=false;$('#g7start').disabled=false;$('#g7start').textContent='再玩一次';cancelAnimationFrame(g7.raf);clearInterval(g7.timer);const cfg=g7Cfg();const score=ok?Math.min(100,Math.round(60+g7.energy*.25+Math.min(15,(g7.passes-cfg.targetPasses)*.5))):Math.min(60,Math.round((g7.passes/cfg.targetPasses)*45+g7.energy*.15));$('#g7msg').textContent=ok?'全隊穿越成功！':'傳輸通道失效';finishWithClue('g7',ok,score,ok?'重力逃生成功':'未完成','#g7clue','#g7result',`全隊通過 ${g7.passes} 個障礙`,`通過 ${g7.passes}/${cfg.targetPasses}，能量 ${Math.round(g7.energy)}%`)}
+$$('[data-gravity]').forEach(b=>{const i=Number(b.dataset.gravity);b.addEventListener('pointerdown',e=>{e.preventDefault();g7Toggle(i)})});$('#g7start').addEventListener('click',g7Start);window.addEventListener('resize',()=>{if($('#g7').classList.contains('active'))g7Draw()});
+
+// ---------- G8 DATA PARTY ----------
+let g8={running:false,ended:false,left:150,points:0,round:0,streak:0,event:null,timer:null,roundTimer:null,delayTimer:null,pressed:new Set(),mash:[0,0,0,0,0]};
+function g8Cfg(){return gs('g8')}
+function g8Pads(){return $$('[data-party]',$('#partyControls'))}
+function g8Pad(n){return $(`[data-party="${n}"]`,$('#partyControls'))}
+function g8ResetPads(){g8Pads().forEach(b=>{b.className='party-btn';$('small',b).textContent='守住自己的按鍵';const m=$('.party-mini-meter i',b);if(m)m.style.width='0%'})}
+function g8SetText(round,title,inst){$('#g8roundName').textContent=round;$('#g8title').textContent=title;$('#g8instruction').textContent=inst;$('#partyStage').classList.remove('party-flash');void $('#partyStage').offsetWidth;$('#partyStage').classList.add('party-flash')}
+function g8Render(){const cfg=g8Cfg();$('#g8time').textContent=Math.max(0,g8.left);$('#g8points').textContent=Math.max(0,Math.round(g8.points));$('#g8round').textContent=g8.round;$('#g8streak').textContent=g8.streak;$('#g8bar').style.width=Math.min(100,g8.points/cfg.target*100)+'%'}
+function g8Pop(text){const s=$('#partyStage'),d=document.createElement('div');d.className='party-scorepop';d.textContent=text;d.style.left=(35+Math.random()*30)+'%';d.style.top=(45+Math.random()*20)+'%';s.appendChild(d);setTimeout(()=>d.remove(),750)}
+function g8Success(base=35,msg='PERFECT!'){if(!g8.running||!g8.event||g8.event.done)return;g8.event.done=true;clearTimeout(g8.roundTimer);g8.streak++;const pts=Math.round(base*(1+Math.min(1,g8.streak*.08)));g8.points+=pts;g8Pop('+'+pts);g8SetText('ROUND CLEAR',msg,`連勝 ${g8.streak}｜準備下一個遊戲`);g8Render();g8ResetPads();g8.delayTimer=setTimeout(g8NextRound,700)}
+function g8Fail(msg='MISS!'){if(!g8.running||!g8.event||g8.event.done)return;g8.event.done=true;clearTimeout(g8.roundTimer);g8.points=Math.max(0,g8.points-g8Cfg().penalty);g8.streak=0;g8Pop('-'+g8Cfg().penalty);g8SetText('ROUND FAILED',msg,'下一個微型遊戲馬上來');g8Render();g8ResetPads();g8.delayTimer=setTimeout(g8NextRound,700)}
+function g8NextRound(){if(!g8.running)return;clearTimeout(g8.roundTimer);g8ResetPads();g8.pressed.clear();g8.mash=[0,0,0,0,0];g8.round++;const cfg=g8Cfg();const types=['sync','traffic','sequence','mash','reaction'];let type=types[Math.floor(Math.random()*types.length)];if(g8.event?.type===type)type=types[(types.indexOf(type)+1)%types.length];const ev={type,done:false,targets:[],seq:[],idx:0,times:new Map(),armed:false};g8.event=ev;
+  if(type==='sync'){ev.targets=shuffle([1,2,3,4,5]).slice(0,2+Math.floor(Math.random()*4));ev.targets.forEach(n=>{g8Pad(n).classList.add('ready');$('small',g8Pad(n)).textContent='同步按！'});g8SetText(`ROUND ${g8.round}｜同步爆破`,ev.targets.join(' + '),`${ev.targets.length} 人要在 ${cfg.syncWindow}ms 內一起按`);g8.roundTimer=setTimeout(()=>g8Fail('同步太慢'),cfg.roundMs);}
+  if(type==='traffic'){ev.targets=[];[1,2,3,4,5].forEach(n=>{const go=Math.random()<.55;const b=g8Pad(n);b.classList.add(go?'go':'stop');$('small',b).textContent=go?'GO｜現在按':'STOP｜不要按';if(go)ev.targets.push(n)});if(!ev.targets.length){ev.targets=[1];const b=g8Pad(1);b.classList.remove('stop');b.classList.add('go');$('small',b).textContent='GO｜現在按'}g8SetText(`ROUND ${g8.round}｜紅綠燈`,'GO / STOP','只有綠色玩家可以按，紅色一按全隊失敗');g8.roundTimer=setTimeout(()=>{if(ev.targets.every(n=>ev.times.has(n)))g8Success(40,'全員判斷正確');else g8Fail('有人沒有完成 GO')},Math.min(cfg.roundMs,4200));}
+  if(type==='sequence'){ev.seq=shuffle([1,2,3,4,5]);g8SetText(`ROUND ${g8.round}｜高速接力`,ev.seq.join(' → '),'看清楚順序，開始後依序按');ev.seq.forEach((n,i)=>{$('small',g8Pad(n)).textContent=`第 ${i+1} 棒`;g8Pad(n).classList.add('ready')});g8.roundTimer=setTimeout(()=>g8Fail('接力超時'),cfg.roundMs);}
+  if(type==='mash'){g8Pads().forEach((b,i)=>{b.classList.add('go');$('small',b).textContent=`0 / ${cfg.mashCount}`});g8SetText(`ROUND ${g8.round}｜全員連打`,'每人都要達標',`每位玩家快速連打 ${cfg.mashCount} 次`);g8.roundTimer=setTimeout(()=>g8Fail('還有人沒達標'),cfg.roundMs+1200);}
+  if(type==='reaction'){g8SetText(`ROUND ${g8.round}｜反應爆破`,'WAIT…','現在先不要按，看到 GO 再全部一起按');g8Pads().forEach(b=>{b.classList.add('stop');$('small',b).textContent='WAIT'});const wait=800+Math.random()*1700;g8.delayTimer=setTimeout(()=>{if(!g8.running||ev.done)return;ev.armed=true;ev.targets=[1,2,3,4,5];g8Pads().forEach(b=>{b.classList.remove('stop');b.classList.add('go');$('small',b).textContent='GO！'});g8SetText(`ROUND ${g8.round}｜反應爆破`,'GO!','五個人現在一起按！');g8.roundTimer=setTimeout(()=>g8Fail('反應太慢'),Math.min(2200,cfg.roundMs))},wait)}
+  g8Render();}
+function g8Press(n){if(!g8.running||!g8.event||g8.event.done)return;const ev=g8.event,b=g8Pad(n),cfg=g8Cfg();b.classList.add('hit');setTimeout(()=>b.classList.remove('hit'),120);
+  if(ev.type==='sync'){if(!ev.targets.includes(n)){g8Fail(`玩家 ${n} 不在這次同步名單`);return}if(ev.times.has(n))return;ev.times.set(n,performance.now());if(ev.times.size===ev.targets.length){const t=[...ev.times.values()];Math.max(...t)-Math.min(...t)<=cfg.syncWindow?g8Success(45,'同步爆破成功'):g8Fail('時間差太大')}return}
+  if(ev.type==='traffic'){if(!ev.targets.includes(n)){g8Fail(`玩家 ${n} 是 STOP`);return}if(ev.times.has(n))return;ev.times.set(n,performance.now());if(ev.targets.every(x=>ev.times.has(x)))g8Success(38,'紅綠燈全員過關');return}
+  if(ev.type==='sequence'){const want=ev.seq[ev.idx];if(n!==want){g8Fail(`應該先由玩家 ${want}`);return}ev.idx++;b.classList.remove('ready');b.classList.add('go');$('small',b).textContent='完成';if(ev.idx>=ev.seq.length)g8Success(48,'接力完成');return}
+  if(ev.type==='mash'){g8.mash[n-1]++;const pct=Math.min(100,g8.mash[n-1]/cfg.mashCount*100);$('.party-mini-meter i',b).style.width=pct+'%';$('small',b).textContent=`${Math.min(cfg.mashCount,g8.mash[n-1])} / ${cfg.mashCount}`;if(g8.mash.every(v=>v>=cfg.mashCount))g8Success(52,'五人全數達標');return}
+  if(ev.type==='reaction'){if(!ev.armed){g8Fail(`玩家 ${n} 偷跑！`);return}if(ev.times.has(n))return;ev.times.set(n,performance.now());if(ev.times.size===5){const t=[...ev.times.values()],spread=Math.max(...t)-Math.min(...t);spread<=cfg.syncWindow*1.5?g8Success(55,`全員反應差 ${Math.round(spread)}ms`):g8Success(38,`完成，但同步差 ${Math.round(spread)}ms`)}return}}
+function g8Start(){clearInterval(g8.timer);clearTimeout(g8.roundTimer);clearTimeout(g8.delayTimer);const cfg=g8Cfg();$('#g8start').disabled=true;$('#g8start').textContent='PARTY 進行中…';g8={running:true,ended:false,left:cfg.time,points:0,round:0,streak:0,event:null,timer:null,roundTimer:null,delayTimer:null,pressed:new Set(),mash:[0,0,0,0,0]};$('#g8clue').classList.remove('show');g8ResetPads();g8Render();g8SetText('PARTY MODE','3…2…1…','每個人只管自己的按鍵，規則會一直改變');g8.timer=setInterval(()=>{if(!g8.running)return;g8.left--;g8Render();if(g8.left<=0)g8End(g8.points>=cfg.target)},1000);g8.delayTimer=setTimeout(g8NextRound,1300)}
+function g8End(ok){if(g8.ended)return;g8.ended=true;g8.running=false;$('#g8start').disabled=false;$('#g8start').textContent='再玩一次';clearInterval(g8.timer);clearTimeout(g8.roundTimer);clearTimeout(g8.delayTimer);g8ResetPads();const cfg=g8Cfg();const score=ok?Math.min(100,Math.round(70+Math.min(30,(g8.points-cfg.target)/cfg.target*45))):Math.min(65,Math.round(g8.points/cfg.target*65));g8SetText(ok?'PARTY CLEAR!':'TIME UP',`${Math.round(g8.points)} / ${cfg.target}`,ok?'資料鎖已解除':'未達目標分數');finishWithClue('g8',ok,score,ok?'PARTY 達標':'未達標','#g8clue','#g8result',`PARTY SCORE ${Math.round(g8.points)} 達標`,`PARTY SCORE ${Math.round(g8.points)}/${cfg.target}`)}
+g8Pads().forEach(b=>{const n=Number(b.dataset.party);b.addEventListener('pointerdown',e=>{e.preventDefault();g8Press(n)})});$('#g8start').addEventListener('click',g8Start);
+
+document.addEventListener('keydown',e=>{const active=$('.game.active');if(!active)return;const dir={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'}[e.key];if(!dir)return;if(active.id==='g2'){e.preventDefault();g2Move(dir)}else if(active.id==='g3'){e.preventDefault();g3Move(dir)}});
+
+loadData();g1Start();g2Start();g3Start();g4Render();g5Progress();g6Render();g7RenderHud();g7Draw();g8Render();installFullscreenButtons();
+})();
+</script>
+</body>
+</html>
