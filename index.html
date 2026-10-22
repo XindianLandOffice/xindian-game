@@ -2,20 +2,23 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#fbf7ed">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
 <title>動物街救援隊：怪盜的假拍賣｜新店地政冬令營</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
-<header class="mast"><div class="brand"><div class="brand-emoji">🦝</div><span>動物街救援隊<br><span style="font-size:11px;color:#5b8988;font-weight:700">怪盜的假拍賣</span></span></div><div class="header-right"><span class="pill" id="team-label">15 分鐘冒險</span><button class="iconbtn" data-action="open-admin" title="工作人員後台" aria-label="工作人員後台">⚙</button></div></header>
-<main id="root" class="stage"><div class="inner center" style="padding-top:140px"><h2>🦝 遊戲載入中…</h2></div></main>
-<footer class="footline"><span>新店地政冬令營 · 本地遊戲展示版</span><span>工作人員設定請按右上角 ⚙</span></footer>
+<header class="mast"><div class="brand"><div class="brand-emoji">🦝</div><span>動物街救援隊<br><span style="font-size:11px;color:#5b8988;font-weight:700">怪盜的假拍賣</span></span></div><div class="header-right"><span class="pill" id="team-label">15 分鐘冒險</span><button class="btn btn-white btn-small" data-action="open-trial">試玩</button><button class="btn btn-white btn-small" data-action="open-challenge">挑戰</button><button class="btn btn-white btn-small" data-action="open-admin">設定</button></div></header>
+<main id="root" class="stage"><div class="inner center"><h2>🦝 遊戲載入中…</h2></div></main>
+<footer class="footline"><span>新店地政冬令營 · 網頁遊戲</span><span id="sync-label">設定與成績載入中…</span></footer>
 </div>
 <div id="admin-root"></div>
+<div id="member-overlay" class="member-overlay" aria-live="polite" hidden></div>
+<script src="cloud.js"></script>
 <script src="game.js"></script>
 </body>
 </html>
