@@ -1,12 +1,11 @@
 {
   "version": 2,
   "remote": {
-    "owner": "",
-    "repo": "",
+    "owner": "xindianlandoffice",
+    "repo": "xindian-game",
     "branch": "main"
   },
   "pinHash": "3421addc81e55dce9e92c145aaa165b905b00da571481753831c3462df0ce42a",
-  "updatedAt": "2026-10-22T00:00:00.000Z",
   "config": {
     "target": 10,
     "attempts": 2,
@@ -50,7 +49,20 @@
     "animations": true,
     "sameDeck": true,
     "seed": 20261022,
-    "media": {},
+    "media": {
+      "intro": {
+        "url": "./assets/intro.png?v=1793091385890",
+        "type": "image"
+      },
+      "transition": {
+        "url": "./assets/transition.png?v=1793091396221",
+        "type": "image"
+      },
+      "end": {
+        "url": "./assets/end.png?v=1793091403659",
+        "type": "image"
+      }
+    },
     "introTitle": "怪盜竟然要拍賣整條街！",
     "introText": "浣熊怪盜把動物街的招牌換成自己的名字，還大喊：「現在整條街都是我的！」\n\n五名動物街救援隊員必須破解 10 秒時間鎖，找回真正的登記線索，揭穿這場假拍賣。",
     "transitionTitle": "時間鎖解除！",
@@ -203,5 +215,6 @@
         "quip": "不要以貌取卡，這張真的重要。"
       }
     ]
-  }
+  },
+  "updatedAt": "2026-10-27T08:56:46.542Z"
 }
